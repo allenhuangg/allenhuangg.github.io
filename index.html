@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Allen Huang — Software Developer | U of T Mississauga</title>
-  <meta name="description" content="Portfolio of Allen Huang — Computer Science student at University of Toronto Mississauga. Software development in Python, C, Node.js, and Java." />
+  <title>Allen Huang — Computer Science & Statistics | U of T Mississauga</title>
+  <meta name="description" content="Portfolio of Allen Huang — Computer Science and Statistics student at University of Toronto Mississauga. Software development in Python, C, Node.js, and Java." />
 
   <!-- Fonts: Instrument Serif + Inter + JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,7 +16,7 @@
 
   <style>
     /* ==========================================================================
-       DESIGN SYSTEM: CLEAN, HIGH-CONTRAST MONOCHROME
+       DESIGN SYSTEM: HIGH-CONTRAST MONOCHROME & REFINED POISE
        ========================================================================== */
     :root {
       --font-serif: 'Instrument Serif', Georgia, serif;
@@ -76,7 +76,7 @@
     body {
       overflow-x: hidden;
       min-height: 100vh;
-      line-height: 1.6;
+      line-height: 1.65;
     }
 
     /* Fixed Scroll Offset so the nav bar never overlaps section titles */
@@ -95,16 +95,16 @@
       pointer-events: none;
     }
 
-    /* Subtle backdrop shield so text is always 100% legible */
+    /* Subtle backdrop shield so text is always 100% legible without hiding 3D shapes */
     .bg-shield {
       position: fixed;
       inset: 0;
-      background: radial-gradient(circle at 50% 50%, rgba(9, 9, 11, 0.15) 0%, rgba(9, 9, 11, 0.75) 100%);
+      background: radial-gradient(circle at 50% 50%, rgba(9, 9, 11, 0.2) 0%, rgba(9, 9, 11, 0.75) 100%);
       pointer-events: none;
       z-index: 1;
     }
     [data-theme="light"] .bg-shield {
-      background: radial-gradient(circle at 50% 50%, rgba(248, 248, 250, 0.15) 0%, rgba(248, 248, 250, 0.75) 100%);
+      background: radial-gradient(circle at 50% 50%, rgba(248, 248, 250, 0.2) 0%, rgba(248, 248, 250, 0.75) 100%);
     }
 
     .container {
@@ -245,17 +245,17 @@
 
     .hero-grid {
       display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
+      grid-template-columns: 1.25fr 0.75fr;
       gap: 56px;
       align-items: flex-end;
     }
 
     .hero-bio {
-      font-size: 1.18rem;
+      font-size: 1.15rem;
       font-weight: 400;
-      line-height: 1.75;
+      line-height: 1.8;
       color: var(--text-sub);
-      max-width: 580px;
+      max-width: 620px;
     }
 
     .hero-bio strong {
@@ -598,7 +598,7 @@
        ========================================================================== */
     .about-grid {
       display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
+      grid-template-columns: 1.25fr 0.75fr;
       gap: 48px;
       align-items: start;
     }
@@ -612,13 +612,13 @@
     }
 
     .about-text {
-      font-size: 1.15rem;
-      line-height: 1.8;
+      font-size: 1.12rem;
+      line-height: 1.85;
       color: var(--text-sub);
       margin-bottom: 36px;
     }
 
-    .about-text p + p { margin-top: 18px; }
+    .about-text p + p { margin-top: 20px; }
     .about-text strong { color: var(--text); font-weight: 600; }
 
     .education-box {
@@ -657,7 +657,7 @@
     .interest-desc {
       font-size: 0.95rem;
       color: var(--text-sub);
-      line-height: 1.6;
+      line-height: 1.65;
     }
 
     #sketchPadCanvas {
@@ -863,7 +863,7 @@
     <div class="container">
       
       <div class="hero-meta-bar">
-        <div class="mono-tag">COMPUTER SCIENCE @ UNIVERSITY OF TORONTO MISSISSAUGA</div>
+        <div class="mono-tag">CS & STATISTICS @ UNIVERSITY OF TORONTO MISSISSAUGA</div>
         <div class="mono-tag">MISSISSAUGA, ON · CLASS OF 2028</div>
       </div>
 
@@ -873,13 +873,13 @@
 
       <div class="hero-grid">
         <p class="hero-bio">
-          I'm <strong>Allen Huang</strong>, a software developer and Computer Science student at U of T Mississauga. I build full-stack web applications in <strong>Node.js</strong> and <strong>JavaScript</strong>, low-level POSIX environments in <strong>C</strong>, and data algorithms in <strong>Python</strong>.
+          I'm <strong>Allen Huang</strong>, a Computer Science and Statistics student at the University of Toronto Mississauga. Raised on the Canadian prairies in Saskatchewan and now based in the Greater Toronto Area, I design software where mathematical precision meets creative expression—building resilient back-ends, spatial telemetry engines, and low-level systems.
         </p>
 
         <div class="hero-specs">
           <div class="hero-spec-row">
             <span>EDUCATION</span>
-            <span>U of T Mississauga (H.BSc)</span>
+            <span>U of T Mississauga (CS & Stats H.BSc)</span>
           </div>
           <div class="hero-spec-row">
             <span>ROLE FOCUS</span>
@@ -919,20 +919,20 @@
               </div>
               <h3 class="project-name">KDCanvas — Match Telemetry & Analytics</h3>
               <p class="project-desc">
-                A full-stack match analytics platform proxying the Riot Games API. Ingests match timeline coordinates and plots real-time interactive kill and death events on Summoner's Rift.
+                Born out of curiosity while analyzing matches on OP.GG and Lolalytics. I wanted to move beyond static post-game tables and turn match timeline coordinates into interactive spatial narratives directly on Summoner's Rift.
               </p>
               <ul class="project-bullets">
                 <li>
                   <span class="bullet-arrow">↳</span>
-                  <span>Engineered an automated exponential backoff and retry pipeline (<code>fetchWithRetry</code>) that reads <code>retry-after</code> headers to absorb HTTP 429 rate limits and 5xx gateway faults without losing requests.</span>
+                  <span>Engineered an automated exponential backoff pipeline (<code>fetchWithRetry</code>) that parses <code>retry-after</code> headers to absorb HTTP 429 rate limits and 5xx faults without dropped frames.</span>
                 </li>
                 <li>
                   <span class="bullet-arrow">↳</span>
-                  <span>Built an interactive visualizer with the HTML5 Canvas API to normalize 15,000×15,000 Riot coordinate space into live coordinate plots with champion portraits.</span>
+                  <span>Built a custom HTML5 Canvas visualizer normalizing 15,000×15,000 Riot coordinate matrices into real-time interactive kill and death coordinate plots with champion portraits.</span>
                 </li>
                 <li>
                   <span class="bullet-arrow">↳</span>
-                  <span>Aggregated player telemetry across matches to calculate matchup win rates, item trends, rune stats, and individual ability cast counts (Q, W, E, R).</span>
+                  <span>Aggregated telemetry across multi-frame match histories to calculate champion matchup win rates, item trends, rune affinities, and individual ability cast counts (Q, W, E, R).</span>
                 </li>
               </ul>
             </div>
@@ -959,56 +959,56 @@
                 MATCH TELEMETRY & MATCHUP ANALYSIS
               </div>
               
-              <!-- Match list with KDA and Win/Loss -->
+              <!-- Match list with user's actual top champions and real KDA -->
               <div class="kd-match-list-col">
                 <div class="kd-match-item">
                   <div class="kd-champ-slot">
-                    <div class="kd-champ-badge" style="border-color:#10b981;">K</div>
+                    <div class="kd-champ-badge" style="border-color:#10b981;">T</div>
                     <div>
-                      <div style="font-size:0.85rem; font-weight:600;">Kai'Sa</div>
-                      <div style="font-size:0.7rem; color:var(--text-muted);">14 / 4 / 9</div>
+                      <div style="font-size:0.85rem; font-weight:600;">Taliyah</div>
+                      <div style="font-size:0.7rem; color:var(--text-muted);">7.2 / 5.7 / 11.2</div>
                     </div>
                   </div>
                   <div style="text-align:right;">
-                    <div style="font-size:0.8rem; font-weight:700; color:#10b981;">WIN</div>
-                    <div style="font-size:0.7rem; color:var(--text-muted);">5.75 KDA</div>
+                    <div style="font-size:0.8rem; font-weight:700; color:#10b981;">57.1% WIN</div>
+                    <div style="font-size:0.7rem; color:var(--text-muted);">3.23 KDA</div>
                   </div>
                 </div>
 
                 <div class="kd-match-item">
                   <div class="kd-champ-slot">
-                    <div class="kd-champ-badge" style="border-color:#10b981;">R</div>
+                    <div class="kd-champ-badge" style="border-color:#10b981;">Z</div>
                     <div>
-                      <div style="font-size:0.85rem; font-weight:600;">Riven</div>
-                      <div style="font-size:0.7rem; color:var(--text-muted);">8 / 4 / 3</div>
+                      <div style="font-size:0.85rem; font-weight:600;">Zeri</div>
+                      <div style="font-size:0.7rem; color:var(--text-muted);">9.8 / 6.8 / 8.0</div>
                     </div>
                   </div>
                   <div style="text-align:right;">
-                    <div style="font-size:0.8rem; font-weight:700; color:#10b981;">WIN</div>
-                    <div style="font-size:0.7rem; color:var(--text-muted);">2.75 KDA</div>
+                    <div style="font-size:0.8rem; font-weight:700; color:#10b981;">55.4% WIN</div>
+                    <div style="font-size:0.7rem; color:var(--text-muted);">2.62 KDA</div>
                   </div>
                 </div>
 
                 <div class="kd-match-item">
                   <div class="kd-champ-slot">
-                    <div class="kd-champ-badge" style="border-color:#ef4444;">K</div>
+                    <div class="kd-champ-badge" style="border-color:#10b981;">J</div>
                     <div>
-                      <div style="font-size:0.85rem; font-weight:600;">Kalista</div>
-                      <div style="font-size:0.7rem; color:var(--text-muted);">13 / 7 / 4</div>
+                      <div style="font-size:0.85rem; font-weight:600;">Janna</div>
+                      <div style="font-size:0.7rem; color:var(--text-muted);">1.9 / 4.6 / 16.7</div>
                     </div>
                   </div>
                   <div style="text-align:right;">
-                    <div style="font-size:0.8rem; font-weight:700; color:#ef4444;">LOSS</div>
-                    <div style="font-size:0.7rem; color:var(--text-muted);">2.43 KDA</div>
+                    <div style="font-size:0.8rem; font-weight:700; color:#10b981;">57.1% WIN</div>
+                    <div style="font-size:0.7rem; color:var(--text-muted);">4.04 KDA</div>
                   </div>
                 </div>
               </div>
 
-              <!-- Stat summaries: Best item & lowest WR against champion -->
+              <!-- Stat summaries: Blackfire Torch, Master Yi, Lux -->
               <div class="kd-stats-summary-grid">
                 <div class="kd-stat-tile">
                   <div class="kd-stat-label">COMMON WON ITEM</div>
-                  <div class="kd-stat-val">Infinity Edge <span style="color:#10b981; font-size:0.75rem;">(68% WR)</span></div>
+                  <div class="kd-stat-val">Blackfire Torch <span style="color:#10b981; font-size:0.75rem;">(64% WR)</span></div>
                 </div>
                 <div class="kd-stat-tile">
                   <div class="kd-stat-label">LOWEST WR VS CHAMPION</div>
@@ -1016,7 +1016,7 @@
                 </div>
                 <div class="kd-stat-tile">
                   <div class="kd-stat-label">BEST MATCHUP</div>
-                  <div class="kd-stat-val">Kai'Sa <span style="color:#10b981; font-size:0.75rem;">(100% WR)</span></div>
+                  <div class="kd-stat-val">Lux <span style="color:#10b981; font-size:0.75rem;">(100% WR)</span></div>
                 </div>
                 <div class="kd-stat-tile">
                   <div class="kd-stat-label">COMMON RUNE</div>
@@ -1038,20 +1038,20 @@
               </div>
               <h3 class="project-name">Ontario Bridge Infrastructure Analysis</h3>
               <p class="project-desc">
-                An automated data pipeline and routing algorithm analyzing provincial Ministry of Transportation infrastructure records to evaluate Bridge Condition Indices (BCI) and optimize inspection routes.
+                An automated municipal infrastructure analytics pipeline and geospatial distance model in Python analyzing provincial condition records to evaluate Bridge Condition Indices (BCI) and optimize preventative maintenance patrols.
               </p>
               <ul class="project-bullets">
                 <li>
                   <span class="bullet-arrow">↳</span>
-                  <span>Cleaned and normalized multi-year provincial Bridge Condition Index (BCI) CSV datasets, handling missing values and structural span details.</span>
+                  <span>Cleaned and normalized multi-year public civil infrastructure condition datasets, resolving missing indices and parsing structural span metrics.</span>
                 </li>
                 <li>
                   <span class="bullet-arrow">↳</span>
-                  <span>Implemented the <code>Haversine</code> spherical formula in <code>calculate_distance()</code> to query bridge coordinates within radius zones.</span>
+                  <span>Implemented the spherical <code>Haversine</code> formula in <code>calculate_distance()</code> to query geographic coordinates within radial proximity zones.</span>
                 </li>
                 <li>
                   <span class="bullet-arrow">↳</span>
-                  <span>Wrote a greedy route-optimization algorithm (<code>map_route()</code>) that algorithmically plans an inspection patrol by prioritizing the lowest-condition bridge within reach.</span>
+                  <span>Formulated a greedy route-optimization engine (<code>map_route()</code>) that algorithmically prioritizes structural inspection visits by identifying the lowest-condition bridge within reach.</span>
                 </li>
               </ul>
             </div>
@@ -1101,12 +1101,12 @@
               </div>
               <h3 class="project-name">Networked POSIX Shell & TCP Server</h3>
               <p class="project-desc">
-                A custom Unix shell environment and concurrent TCP server engineered in C, implementing process lifecycle management, background jobs, and synchronous I/O multiplexing.
+                A custom Unix shell environment and concurrent TCP server engineered from scratch in C, implementing process lifecycle management, background jobs, and synchronous I/O multiplexing.
               </p>
               <ul class="project-bullets">
                 <li>
                   <span class="bullet-arrow">↳</span>
-                  <span>Implemented process execution and background job control using <code>fork()</code> and <code>execv()</code> with strict heap memory management.</span>
+                  <span>Implemented process execution and background job control using <code>fork()</code> and <code>execv()</code> with strict heap memory cleanup.</span>
                 </li>
                 <li>
                   <span class="bullet-arrow">↳</span>
@@ -1229,10 +1229,10 @@
       
       <div class="section-header">
         <div>
-          <div class="mono-tag" style="margin-bottom: 8px;">BACKGROUND</div>
+          <div class="mono-tag" style="margin-bottom: 8px;">PERSPECTIVE & BACKGROUND</div>
           <h2 class="section-title">About Me</h2>
         </div>
-        <div class="mono-tag">EDUCATION & INTERESTS</div>
+        <div class="mono-tag">THE PERSON BEHIND THE TERMINAL</div>
       </div>
 
       <div class="about-grid">
@@ -1240,18 +1240,18 @@
         <div class="about-card">
           <div class="about-text">
             <p>
-              I am a Computer Science student at the <strong>University of Toronto Mississauga</strong>. I like building software where performance, reliability, and architecture matter: ensuring child processes don't leak memory, handling rate-limits gracefully on live API feeds, and writing clean mathematical algorithms.
+              Growing up on the Canadian prairies in Saskatchewan taught me the value of quiet patience; moving to the Greater Toronto Area revealed the kinetic drive of people dedicated to building with intent. I believe deeply in an abundance mindset: that there is ample room in the world for earnest ideas and dedicated people to prosper.
             </p>
             <p>
-              My main technical interests are in <strong>Back-End Development, Full-Stack Applications, and Systems Programming</strong>. I like having a clear understanding of how data travels across network sockets and how operating systems execute tasks.
+              I have always had an artistic background, alongside a natural fascination with the mathematical structure of possibilities. Programming became the singular medium where both instincts meet: the creative vision required to build lasting products, and the statistical, pattern-seeking rigor required to solve difficult technical problems.
             </p>
           </div>
 
           <div class="education-box">
             <div class="mono-tag" style="margin-bottom: 6px;">UNIVERSITY EDUCATION</div>
             <div class="edu-school">University of Toronto Mississauga</div>
-            <div class="edu-degree">Honours Bachelor of Science (H.BSc) in Computer Science • Expected Apr 2028</div>
-            <div class="mono-tag" style="margin-bottom: 8px;">COMPLETED & ONGOING COURSEWORK:</div>
+            <div class="edu-degree">Honours Bachelor of Science (H.BSc) in Computer Science & Statistics • Expected Apr 2028</div>
+            <div class="mono-tag" style="margin-bottom: 8px;">KEY COURSEWORK:</div>
             <div class="project-techs" style="margin-bottom: 0;">
               <span class="tech-pill">Data Structures & Algorithms</span>
               <span class="tech-pill">Systems Programming (C / Unix)</span>
@@ -1264,28 +1264,28 @@
         <div class="sidebar-interests">
           
           <div class="interest-card">
-            <div class="interest-title">Drawing & Visual Arts</div>
+            <div class="interest-title">Digital Art & Illustration</div>
             <p class="interest-desc">
-              Drawing keeps my creative side active. It also directly inspired my <strong>JavaFX Paint Application</strong>, where I implemented the Command pattern to build a lossless undo/redo history system.
+              Digital drawing is how I unwind and keep my mind sharp. It taught me structural composition before surface detail—a mindset that directly shaped my <strong>JavaFX Paint Application</strong> and user interface designs.
             </p>
             <canvas id="sketchPadCanvas" title="Quick doodle pad"></canvas>
             <div style="display:flex; justify-content:space-between; margin-top:8px; font-family:var(--font-mono); font-size:0.68rem; color:var(--text-muted);">
-              <span>CLICK & DRAG TO DOODLE</span>
+              <span>CLICK & DRAG TO SKETCH</span>
               <button onclick="clearSketchPad()" style="color:var(--text); text-decoration:underline;">Clear</button>
             </div>
           </div>
 
           <div class="interest-card">
-            <div class="interest-title">Competitive Gaming</div>
+            <div class="interest-title">Competitive Telemetry & Gaming</div>
             <p class="interest-desc">
-              Playing competitive games sparked my interest in game tick-rates, network packets, and spatial telemetry—which led directly to building <strong>KDCanvas</strong>.
+              Years of playing high-elo League of Legends (Taliyah, Zeri, Janna) sparked my curiosity about tick-rates, server-client sync, and spatial micro-decisions—the direct inspiration for building <strong>KDCanvas</strong>.
             </p>
           </div>
 
           <div class="interest-card">
-            <div class="interest-title">Working Out</div>
+            <div class="interest-title">Calisthenics & Physical Discipline</div>
             <p class="interest-desc">
-              Consistent gym training keeps me focused, disciplined, and energized for long programming and debugging sessions.
+              I approach bodyweight training with the same deliberate mechanics as writing code: progressive overload, leverage, and patience. Physical discipline provides the mental stamina required for deep, uninterrupted debugging sessions.
             </p>
           </div>
 
@@ -1302,15 +1302,18 @@
       
       <div class="contact-card">
         <div>
-          <div class="mono-tag" style="margin-bottom: 12px;">CONTACT</div>
-          <h2 class="contact-heading">Let's talk.</h2>
+          <div class="mono-tag" style="margin-bottom: 12px;">INQUIRIES</div>
+          <h2 class="contact-heading">Initiate a dialogue.</h2>
           <p class="contact-sub">
-            I am actively seeking co-op and internship positions in <strong>Software Engineering, Back-End Development, and Systems</strong>. As a Canadian citizen, I am accredited for the <strong>SWPP Federal Wage Subsidy</strong> (which covers up to 70% of co-op wages for Canadian employers).
+            I am actively considering co-op and internship placements in <strong>Software Engineering, Back-End Development, and Data Systems</strong>. As a Canadian citizen, I am eligible for the <strong>SWPP Federal Wage Subsidy</strong> (covering up to 70% of wages for Canadian employers).
           </p>
           <button class="contact-copy-pill" onclick="copyContactEmail()">
             <span id="copyPillLabel">Copy: aallen.huang@mail.utoronto.ca</span>
             <span>↳</span>
           </button>
+          <div style="margin-top: 16px; font-size: 0.88rem; color: var(--text-muted);">
+            Feel free to reach out regarding software opportunities, technical projects, or creative collaborations. I am always glad to connect.
+          </div>
         </div>
 
         <div class="contact-links-list">
@@ -1325,15 +1328,24 @@
             <span class="contact-lbl">LinkedIn</span>
             <span class="contact-val">
               <a href="https://www.linkedin.com/in/allen-huang-357509369/" target="_blank" rel="noopener noreferrer">
-                linkedin.com/in/allen-huang-357509369/ ↗
+                linkedin.com/in/allen-huang ↗
               </a>
             </span>
           </div>
 
           <div class="contact-row">
-            <span class="contact-lbl">Phone</span>
+            <span class="contact-lbl">GitHub</span>
+            <span class="contact-val">
+              <a href="https://github.com/allenhuangg" target="_blank" rel="noopener noreferrer">
+                github.com/allenhuangg ↗
+              </a>
+            </span>
+          </div>
+
+          <div class="contact-row">
+            <span class="contact-lbl">Telephone</span>
             <span class="contact-val" style="font-family:var(--font-mono); font-size:0.95rem;">
-              306-716-6183
+              +1 (306) 716-6183
             </span>
           </div>
 
@@ -1347,14 +1359,14 @@
           <div class="contact-row">
             <span class="contact-lbl">Government Co-op Subsidy</span>
             <span class="contact-val" style="color:#10b981; font-family:var(--font-mono); font-size:0.92rem; font-weight:600;">
-                Eligible · SWPP 70% Coverage
+                Eligible · SWPP 70% Wage Subsidy
             </span>
           </div>
         </div>
       </div>
 
       <footer class="site-footer">
-        <div>ALLEN HUANG — CS STUDENT @ U OF T MISSISSAUGA</div>
+        <div>ALLEN HUANG — CS & STATS @ U OF T MISSISSAUGA</div>
         <div><a href="#hero" style="text-decoration: underline;">Back to top ↑</a></div>
       </footer>
 
@@ -1386,7 +1398,7 @@
           <div class="mono-tag" style="margin-bottom:8px; color:#38bdf8;">RIOT GAMES API TELEMETRY PLATFORM</div>
           <h2 style="font-size:2rem; font-weight:500; margin-bottom:14px;">KDCanvas</h2>
           <p style="color:var(--text-sub); font-size:1.05rem; line-height:1.7; margin-bottom:24px;">
-            A full-stack match analytics platform proxying the Riot Games API. Parses multi-frame coordinate timeline data for up to 100 concurrent competitive matches to render real-time interactive kill/death heatmaps on Summoner's Rift.
+            A full-stack match analytics platform proxying the Riot Games API. Parses multi-frame coordinate timeline data for up to 100 concurrent competitive matches to render real-time interactive kill and death heatmaps on Summoner's Rift.
           </p>
           <div style="background:var(--bg-subtle); padding:24px; border-radius:16px; border:1px solid var(--border); font-family:var(--font-mono); font-size:0.8rem; line-height:1.8;">
             <div style="color:var(--text); font-weight:600; margin-bottom:8px;">KEY CONTRIBUTIONS:</div>
@@ -1569,9 +1581,9 @@
       let scene, camera, renderer, geometry, material, points;
       const particleCount = 2400;
 
-      // Base unrotated shapes (source of truth for mathematical geometry)
-      const basePositions   = new Float32Array(particleCount * 3);
-      const targetShape     = new Float32Array(particleCount * 3);
+      // Base unrotated shapes
+      const basePositions    = new Float32Array(particleCount * 3);
+      const targetShape      = new Float32Array(particleCount * 3);
       // Actual live world positions rendered on screen
       const currentPositions = new Float32Array(particleCount * 3);
       const velocities       = new Float32Array(particleCount * 3);
@@ -1689,7 +1701,7 @@
         });
 
         points = new THREE.Points(geometry, material);
-        // CRITICAL FIX: The container is kept strictly unrotated so its coordinates always match world space
+        // Container stays strictly unrotated in world space to eliminate coordinate twisting bugs
         points.rotation.set(0, 0, 0);
         scene.add(points);
 
@@ -1740,13 +1752,13 @@
       function render() {
         requestAnimationFrame(render);
 
-        // 1. Smoothly drift whole swarm center toward the cursor position
+        // 1. The entire 3D shape smoothly glides and drifts toward the cursor
         const targetSwarmX = mouseWorldX * 0.22;
         const targetSwarmY = mouseWorldY * 0.22;
         points.position.x += (targetSwarmX - points.position.x) * 0.05;
         points.position.y += (targetSwarmY - points.position.y) * 0.05;
 
-        // Container rotation is locked to (0,0,0) to prevent coordinate desync
+        // Container rotation is locked to (0,0,0)
         points.rotation.set(0, 0, 0);
 
         // 2. Rotate the shape mathematically in world space
@@ -1792,7 +1804,7 @@
             const dx = visualScreenX - mouseWorldX;
             const dy = visualScreenY - mouseWorldY;
             const distSq = dx * dx + dy * dy;
-            const thresholdSq = 49; // ~7 world units (~150px on screen)
+            const thresholdSq = 49; // ~7 world units
 
             if (distSq < thresholdSq) {
               const dist = Math.sqrt(distSq);
