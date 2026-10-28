@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Allen Huang — Computer Science & Statistics | U of T Mississauga</title>
-  <meta name="description" content="Portfolio of Allen Huang — Computer Science and Statistics student at University of Toronto Mississauga. Software development in Python, C, Node.js, and Java." />
+  <title>Allen Huang — CS & Statistics | U of T Mississauga</title>
+  <meta name="description" content="Portfolio of Allen Huang — Computer Science and Statistics student at University of Toronto Mississauga." />
 
   <!-- Fonts: Instrument Serif + Inter + JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,7 +16,7 @@
 
   <style>
     /* ==========================================================================
-       DESIGN SYSTEM: HIGH-CONTRAST MONOCHROME & REFINED POISE
+       DESIGN SYSTEM: CLEAN, HIGH-CONTRAST MONOCHROME & AMBIENT TRANSITIONS
        ========================================================================== */
     :root {
       --font-serif: 'Instrument Serif', Georgia, serif;
@@ -79,12 +79,10 @@
       line-height: 1.65;
     }
 
-    /* Fixed Scroll Offset so the nav bar never overlaps section titles */
     section[id] {
       scroll-margin-top: 110px;
     }
 
-    /* 3D Canvas Background */
     #particle-canvas {
       position: fixed;
       top: 0;
@@ -95,16 +93,13 @@
       pointer-events: none;
     }
 
-    /* Subtle backdrop shield so text is always 100% legible without hiding 3D shapes */
     .bg-shield {
       position: fixed;
       inset: 0;
-      background: radial-gradient(circle at 50% 50%, rgba(9, 9, 11, 0.2) 0%, rgba(9, 9, 11, 0.75) 100%);
+      background: radial-gradient(circle at 50% 50%, rgba(9, 9, 11, 0.15) 0%, rgba(9, 9, 11, 0.75) 100%);
       pointer-events: none;
       z-index: 1;
-    }
-    [data-theme="light"] .bg-shield {
-      background: radial-gradient(circle at 50% 50%, rgba(248, 248, 250, 0.2) 0%, rgba(248, 248, 250, 0.75) 100%);
+      transition: background 1s ease;
     }
 
     .container {
@@ -118,6 +113,11 @@
 
     a { color: inherit; text-decoration: none; }
     button { background: none; border: none; color: inherit; font-family: inherit; cursor: pointer; }
+
+    strong {
+      color: var(--text);
+      font-weight: 600;
+    }
 
     .italic-serif {
       font-family: var(--font-serif);
@@ -219,8 +219,9 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      justify-content: flex-end;
-      padding-bottom: 96px;
+      justify-content: center;
+      padding-top: 140px;
+      padding-bottom: 80px;
       position: relative;
     }
 
@@ -230,16 +231,16 @@
       align-items: baseline;
       border-bottom: 1px solid var(--border);
       padding-bottom: 16px;
-      margin-bottom: 40px;
+      margin-bottom: 36px;
     }
 
     .hero-title {
-      font-size: clamp(2.8rem, 6.2vw, 5.6rem);
+      font-size: clamp(2.6rem, 5.8vw, 5.2rem);
       font-weight: 400;
-      line-height: 1.05;
+      line-height: 1.06;
       letter-spacing: -0.035em;
-      margin-bottom: 36px;
-      max-width: 1080px;
+      margin-bottom: 32px;
+      max-width: 1040px;
       color: var(--text);
     }
 
@@ -252,15 +253,9 @@
 
     .hero-bio {
       font-size: 1.15rem;
-      font-weight: 400;
-      line-height: 1.8;
+      line-height: 1.75;
       color: var(--text-sub);
-      max-width: 620px;
-    }
-
-    .hero-bio strong {
-      color: var(--text);
-      font-weight: 600;
+      max-width: 600px;
     }
 
     .hero-specs {
@@ -315,7 +310,6 @@
       gap: 48px;
     }
 
-    /* Project Card with 3D Tilt */
     .project-card {
       border-radius: 28px;
       background: var(--panel);
@@ -439,7 +433,7 @@
       min-height: 320px;
     }
 
-    /* AUTHENTIC KDCANVAS MATCH DASHBOARD STAGE */
+    /* KDCANVAS MATCH DASHBOARD */
     .kd-dashboard-replica {
       width: 100%;
       display: flex;
@@ -467,20 +461,16 @@
     .kd-champ-slot {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
     }
 
-    .kd-champ-badge {
-      width: 28px;
-      height: 28px;
+    .kd-champ-avatar {
+      width: 34px;
+      height: 34px;
       border-radius: 50%;
-      background: #27272a;
-      display: grid;
-      place-items: center;
-      font-size: 11px;
-      font-weight: 700;
-      color: #fff;
-      border: 1px solid rgba(255,255,255,0.2);
+      border: 1.5px solid rgba(255, 255, 255, 0.25);
+      object-fit: cover;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
     }
 
     .kd-stats-summary-grid {
@@ -512,7 +502,6 @@
       color: var(--text);
     }
 
-    /* Bridge Code Preview */
     .bridge-code-preview {
       width: 100%;
       font-family: var(--font-mono);
@@ -525,7 +514,6 @@
     .code-kw { color: #f472b6; }
     .code-val { color: #34d399; }
 
-    /* Shell Pipeline Preview */
     .shell-preview-box {
       font-family: var(--font-mono);
       font-size: 0.75rem;
@@ -619,7 +607,6 @@
     }
 
     .about-text p + p { margin-top: 20px; }
-    .about-text strong { color: var(--text); font-weight: 600; }
 
     .education-box {
       border-radius: 16px;
@@ -628,7 +615,7 @@
       padding: 24px;
     }
 
-    .edu-school { font-size: 1.2rem; font-weight: 500; color: var(--text); margin-bottom: 2px; }
+    .edu-school { font-size: 1.2rem; font-weight: 600; color: var(--text); margin-bottom: 2px; }
     .edu-degree { color: var(--text-sub); font-size: 0.95rem; margin-bottom: 14px; }
 
     .sidebar-interests {
@@ -835,7 +822,7 @@
 
   <!-- Interactive 3D Particle Physics Canvas -->
   <canvas id="particle-canvas"></canvas>
-  <div class="bg-shield" aria-hidden="true"></div>
+  <div class="bg-shield" id="ambient-shield" aria-hidden="true"></div>
 
   <!-- FLOATING NAVIGATION -->
   <header class="nav-wrap">
@@ -864,7 +851,7 @@
       
       <div class="hero-meta-bar">
         <div class="mono-tag">CS & STATISTICS @ UNIVERSITY OF TORONTO MISSISSAUGA</div>
-        <div class="mono-tag">MISSISSAUGA, ON · CLASS OF 2028</div>
+        <div class="mono-tag" style="color: #10b981;">● AVAILABLE FOR CO-OP PLACEMENTS</div>
       </div>
 
       <h1 class="hero-title">
@@ -873,7 +860,7 @@
 
       <div class="hero-grid">
         <p class="hero-bio">
-          I'm <strong>Allen Huang</strong>, a Computer Science and Statistics student at the University of Toronto Mississauga. Raised on the Canadian prairies in Saskatchewan and now based in the Greater Toronto Area, I design software where mathematical precision meets creative expression—building resilient back-ends, spatial telemetry engines, and low-level systems.
+          <strong>Hey! I'm Allen</strong>, a <strong>Computer Science & Statistics</strong> student at the <strong>University of Toronto Mississauga</strong>. Originally from <strong>Saskatchewan</strong>, now based in the <strong>Greater Toronto Area</strong>. I like building <strong>backend services</strong>, <strong>interactive web applications</strong>, and <strong>systems</strong>.
         </p>
 
         <div class="hero-specs">
@@ -919,20 +906,20 @@
               </div>
               <h3 class="project-name">KDCanvas — Match Telemetry & Analytics</h3>
               <p class="project-desc">
-                Born out of curiosity while analyzing matches on OP.GG and Lolalytics. I wanted to move beyond static post-game tables and turn match timeline coordinates into interactive spatial narratives directly on Summoner's Rift.
+                Born out of curiosity while using platforms like <strong>OP.GG</strong> and <strong>Lolalytics</strong>. I wanted to move beyond static post-game tables and turn match timeline coordinates into <strong>interactive spatial maps directly on Summoner's Rift</strong>.
               </p>
               <ul class="project-bullets">
                 <li>
                   <span class="bullet-arrow">↳</span>
-                  <span>Engineered an automated exponential backoff pipeline (<code>fetchWithRetry</code>) that parses <code>retry-after</code> headers to absorb HTTP 429 rate limits and 5xx faults without dropped frames.</span>
+                  <span>Engineered an <strong>automated exponential backoff pipeline</strong> (<code>fetchWithRetry</code>) parsing <code>retry-after</code> headers to absorb <strong>HTTP 429 rate limits and 5xx faults</strong> with zero dropped requests.</span>
                 </li>
                 <li>
                   <span class="bullet-arrow">↳</span>
-                  <span>Built a custom HTML5 Canvas visualizer normalizing 15,000×15,000 Riot coordinate matrices into real-time interactive kill and death coordinate plots with champion portraits.</span>
+                  <span>Built a custom <strong>HTML5 Canvas visualizer</strong> normalizing <strong>15,000×15,000 Riot coordinate matrices</strong> into real-time interactive kill and death coordinate plots with champion portraits.</span>
                 </li>
                 <li>
                   <span class="bullet-arrow">↳</span>
-                  <span>Aggregated telemetry across multi-frame match histories to calculate champion matchup win rates, item trends, rune affinities, and individual ability cast counts (Q, W, E, R).</span>
+                  <span>Aggregated telemetry across multi-frame match histories to calculate <strong>matchup win rates</strong>, <strong>item trends</strong>, <strong>rune affinities</strong>, and individual <strong>ability cast counts (Q, W, E, R)</strong>.</span>
                 </li>
               </ul>
             </div>
@@ -952,20 +939,20 @@
             </div>
           </div>
 
-          <!-- Authentic KDCanvas Match History & Winrate Dashboard Stage -->
+          <!-- Authentic KDCanvas Dashboard with Real Champion Images -->
           <div class="project-preview-stage">
             <div class="kd-dashboard-replica">
               <div class="mono-tag" style="font-size:0.65rem; color:#38bdf8; margin-bottom:4px;">
                 MATCH TELEMETRY & MATCHUP ANALYSIS
               </div>
               
-              <!-- Match list with user's actual top champions and real KDA -->
+              <!-- Match list with real Data Dragon champion images -->
               <div class="kd-match-list-col">
                 <div class="kd-match-item">
                   <div class="kd-champ-slot">
-                    <div class="kd-champ-badge" style="border-color:#10b981;">T</div>
+                    <img class="kd-champ-avatar" src="https://ddragon.leagueoflegends.com/cdn/14.20.1/img/champion/Taliyah.png" alt="Taliyah" />
                     <div>
-                      <div style="font-size:0.85rem; font-weight:600;">Taliyah</div>
+                      <div style="font-size:0.85rem; font-weight:700;">Taliyah <span style="font-size:0.65rem; color:var(--text-dim); font-weight:normal;">(Mid / Jungle)</span></div>
                       <div style="font-size:0.7rem; color:var(--text-muted);">7.2 / 5.7 / 11.2</div>
                     </div>
                   </div>
@@ -977,9 +964,9 @@
 
                 <div class="kd-match-item">
                   <div class="kd-champ-slot">
-                    <div class="kd-champ-badge" style="border-color:#10b981;">Z</div>
+                    <img class="kd-champ-avatar" src="https://ddragon.leagueoflegends.com/cdn/14.20.1/img/champion/Zeri.png" alt="Zeri" />
                     <div>
-                      <div style="font-size:0.85rem; font-weight:600;">Zeri</div>
+                      <div style="font-size:0.85rem; font-weight:700;">Zeri <span style="font-size:0.65rem; color:var(--text-dim); font-weight:normal;">(ADC)</span></div>
                       <div style="font-size:0.7rem; color:var(--text-muted);">9.8 / 6.8 / 8.0</div>
                     </div>
                   </div>
@@ -991,9 +978,9 @@
 
                 <div class="kd-match-item">
                   <div class="kd-champ-slot">
-                    <div class="kd-champ-badge" style="border-color:#10b981;">J</div>
+                    <img class="kd-champ-avatar" src="https://ddragon.leagueoflegends.com/cdn/14.20.1/img/champion/Janna.png" alt="Janna" />
                     <div>
-                      <div style="font-size:0.85rem; font-weight:600;">Janna</div>
+                      <div style="font-size:0.85rem; font-weight:700;">Janna <span style="font-size:0.65rem; color:var(--text-dim); font-weight:normal;">(Support)</span></div>
                       <div style="font-size:0.7rem; color:var(--text-muted);">1.9 / 4.6 / 16.7</div>
                     </div>
                   </div>
@@ -1038,20 +1025,20 @@
               </div>
               <h3 class="project-name">Ontario Bridge Infrastructure Analysis</h3>
               <p class="project-desc">
-                An automated municipal infrastructure analytics pipeline and geospatial distance model in Python analyzing provincial condition records to evaluate Bridge Condition Indices (BCI) and optimize preventative maintenance patrols.
+                An automated <strong>data pipeline and routing engine in Python</strong> analyzing provincial condition records to evaluate <strong>Bridge Condition Indices (BCI)</strong> and algorithmically schedule preventative maintenance routes.
               </p>
               <ul class="project-bullets">
                 <li>
                   <span class="bullet-arrow">↳</span>
-                  <span>Cleaned and normalized multi-year public civil infrastructure condition datasets, resolving missing indices and parsing structural span metrics.</span>
+                  <span>Cleaned, parsed, and normalized <strong>multi-year public infrastructure condition datasets</strong>, resolving missing data and extracting structural span metrics.</span>
                 </li>
                 <li>
                   <span class="bullet-arrow">↳</span>
-                  <span>Implemented the spherical <code>Haversine</code> formula in <code>calculate_distance()</code> to query geographic coordinates within radial proximity zones.</span>
+                  <span>Implemented the spherical <strong>Haversine formula</strong> in <code>calculate_distance()</code> to query geographic coordinates within custom radial proximity zones.</span>
                 </li>
                 <li>
                   <span class="bullet-arrow">↳</span>
-                  <span>Formulated a greedy route-optimization engine (<code>map_route()</code>) that algorithmically prioritizes structural inspection visits by identifying the lowest-condition bridge within reach.</span>
+                  <span>Formulated a <strong>greedy route-optimization algorithm (<code>map_route()</code>)</strong> that automatically prioritizes inspection visits by finding the lowest-condition bridge within reach.</span>
                 </li>
               </ul>
             </div>
@@ -1101,20 +1088,20 @@
               </div>
               <h3 class="project-name">Networked POSIX Shell & TCP Server</h3>
               <p class="project-desc">
-                A custom Unix shell environment and concurrent TCP server engineered from scratch in C, implementing process lifecycle management, background jobs, and synchronous I/O multiplexing.
+                A custom <strong>Unix shell environment and concurrent TCP server</strong> engineered from scratch in <strong>C</strong>, implementing process execution, background job control, and synchronous I/O multiplexing.
               </p>
               <ul class="project-bullets">
                 <li>
                   <span class="bullet-arrow">↳</span>
-                  <span>Implemented process execution and background job control using <code>fork()</code> and <code>execv()</code> with strict heap memory cleanup.</span>
+                  <span>Implemented <strong>process execution and background job control</strong> using <code>fork()</code> and <code>execv()</code> with strict heap memory cleanup.</span>
                 </li>
                 <li>
                   <span class="bullet-arrow">↳</span>
-                  <span>Engineered Inter-Process Communication (IPC) pipelines using <code>dup2</code> and installed custom <code>sigaction</code> interrupt handlers.</span>
+                  <span>Engineered <strong>Inter-Process Communication (IPC) pipelines</strong> using <code>dup2</code> and installed custom <code>sigaction</code> interrupt handlers.</span>
                 </li>
                 <li>
                   <span class="bullet-arrow">↳</span>
-                  <span>Architected a multiplexed TCP server using <code>select()</code>, handling multiple simultaneous client sockets with minimal CPU overhead over multi-threading.</span>
+                  <span>Architected a <strong>multiplexed TCP server using <code>select()</code></strong>, servicing multiple simultaneous client sockets with minimal CPU overhead over multi-threading.</span>
                 </li>
               </ul>
             </div>
@@ -1170,12 +1157,12 @@
         <div class="flashcard">
           <h3 class="flashcard-title">Languages</h3>
           <ul class="flashcard-list">
-            <li>Python</li>
-            <li>C</li>
-            <li>Java</li>
-            <li>JavaScript (ES6+)</li>
-            <li>SQL</li>
-            <li>Bash</li>
+            <li><strong>Python</strong></li>
+            <li><strong>C</strong></li>
+            <li><strong>Java</strong></li>
+            <li><strong>JavaScript (ES6+)</strong></li>
+            <li><strong>SQL</strong></li>
+            <li><strong>Bash</strong></li>
           </ul>
         </div>
 
@@ -1183,12 +1170,12 @@
         <div class="flashcard">
           <h3 class="flashcard-title">Frameworks & Libs</h3>
           <ul class="flashcard-list">
-            <li>Node.js</li>
-            <li>Express.js</li>
-            <li>HTML5 Canvas API</li>
-            <li>Pandas</li>
-            <li>NumPy</li>
-            <li>JavaFX</li>
+            <li><strong>Node.js</strong></li>
+            <li><strong>Express.js</strong></li>
+            <li><strong>HTML5 Canvas API</strong></li>
+            <li><strong>Pandas</strong></li>
+            <li><strong>NumPy</strong></li>
+            <li><strong>JavaFX</strong></li>
           </ul>
         </div>
 
@@ -1196,12 +1183,12 @@
         <div class="flashcard">
           <h3 class="flashcard-title">Tools & Systems</h3>
           <ul class="flashcard-list">
-            <li>Git</li>
-            <li>Linux / POSIX Shell</li>
-            <li>Unix Sockets</li>
-            <li>IPC Pipelines</li>
-            <li>Docker</li>
-            <li>REST APIs</li>
+            <li><strong>Git</strong></li>
+            <li><strong>Linux / POSIX Shell</strong></li>
+            <li><strong>Unix Sockets</strong></li>
+            <li><strong>IPC Pipelines</strong></li>
+            <li><strong>Docker</strong></li>
+            <li><strong>REST APIs</strong></li>
           </ul>
         </div>
 
@@ -1209,12 +1196,12 @@
         <div class="flashcard">
           <h3 class="flashcard-title">Concepts</h3>
           <ul class="flashcard-list">
-            <li>Systems Programming</li>
-            <li>Back-End Architecture</li>
-            <li>I/O Multiplexing (select)</li>
-            <li>Data Pipelines & ETL</li>
-            <li>MVC & Command Pattern</li>
-            <li>Haversine Geospatial Math</li>
+            <li><strong>Systems Programming</strong></li>
+            <li><strong>Back-End Architecture</strong></li>
+            <li><strong>I/O Multiplexing (select)</strong></li>
+            <li><strong>Data Pipelines & ETL</strong></li>
+            <li><strong>MVC & Command Pattern</strong></li>
+            <li><strong>Haversine Geospatial Math</strong></li>
           </ul>
         </div>
 
@@ -1223,7 +1210,7 @@
     </div>
   </section>
 
-  <!-- SECTION: ABOUT -->
+  <!-- SECTION: ABOUT (GENUINE HUB PERSPECTIVE) -->
   <section id="about" class="section-wrap" style="padding-top: 0;">
     <div class="container">
       
@@ -1232,7 +1219,7 @@
           <div class="mono-tag" style="margin-bottom: 8px;">PERSPECTIVE & BACKGROUND</div>
           <h2 class="section-title">About Me</h2>
         </div>
-        <div class="mono-tag">THE PERSON BEHIND THE TERMINAL</div>
+        <div class="mono-tag">THE PERSON BEHIND THE CODE</div>
       </div>
 
       <div class="about-grid">
@@ -1240,10 +1227,10 @@
         <div class="about-card">
           <div class="about-text">
             <p>
-              Growing up on the Canadian prairies in Saskatchewan taught me the value of quiet patience; moving to the Greater Toronto Area revealed the kinetic drive of people dedicated to building with intent. I believe deeply in an abundance mindset: that there is ample room in the world for earnest ideas and dedicated people to prosper.
+              <strong>Growing up on the Canadian prairies</strong> in Saskatchewan taught me quiet patience; moving to the Greater Toronto Area showed me the kinetic <strong>drive of people</strong> dedicated to <strong>building with intent</strong>. I’m a big believer in an abundance mindset: <strong>there is ample room in the world for earnest ideas and dedicated people to prosper</strong> so long as you work hard for it :)
             </p>
             <p>
-              I have always had an artistic background, alongside a natural fascination with the mathematical structure of possibilities. Programming became the singular medium where both instincts meet: the creative vision required to build lasting products, and the statistical, pattern-seeking rigor required to solve difficult technical problems.
+              I’ve always lived between two worlds: <strong>art and technical math</strong>. I love exploring patterns, probability, and possibilities, but I also love visual creation. <strong>Programming</strong> is where those two halves meet. It takes creativity to imagine something from scratch, and analytical rigor to make it run reliably.
             </p>
           </div>
 
@@ -1266,7 +1253,7 @@
           <div class="interest-card">
             <div class="interest-title">Digital Art & Illustration</div>
             <p class="interest-desc">
-              Digital drawing is how I unwind and keep my mind sharp. It taught me structural composition before surface detail—a mindset that directly shaped my <strong>JavaFX Paint Application</strong> and user interface designs.
+              <strong>Digital drawing</strong> is my favorite way to unwind and keep my mind sharp. I've had an artistic background for as long as I can remember—if it weren't for art, I wouldn't be who I am today.
             </p>
             <canvas id="sketchPadCanvas" title="Quick doodle pad"></canvas>
             <div style="display:flex; justify-content:space-between; margin-top:8px; font-family:var(--font-mono); font-size:0.68rem; color:var(--text-muted);">
@@ -1276,16 +1263,16 @@
           </div>
 
           <div class="interest-card">
-            <div class="interest-title">Competitive Telemetry & Gaming</div>
+            <div class="interest-title">GAMING</div>
             <p class="interest-desc">
-              Years of playing high-elo League of Legends (Taliyah, Zeri, Janna) sparked my curiosity about tick-rates, server-client sync, and spatial micro-decisions—the direct inspiration for building <strong>KDCanvas</strong>.
+              I’ve played a lot of <strong>League of Legends</strong> over the years (not high elo, but hundreds of games on Taliyah, Zeri, and Janna!). Frequently browsing sites like OP.GG and Lolalytics made me curious about visualizing spatial match coordinates—this was what led me to create KDCanvas.
             </p>
           </div>
 
           <div class="interest-card">
-            <div class="interest-title">Calisthenics & Physical Discipline</div>
+            <div class="interest-title">WORKING OUT</div>
             <p class="interest-desc">
-              I approach bodyweight training with the same deliberate mechanics as writing code: progressive overload, leverage, and patience. Physical discipline provides the mental stamina required for deep, uninterrupted debugging sessions.
+              I've been recently getting into <strong>calisthenics</strong> and its been a lot of fun! It's helped me stay focused longer and keeps my mood steady.
             </p>
           </div>
 
@@ -1302,25 +1289,22 @@
       
       <div class="contact-card">
         <div>
-          <div class="mono-tag" style="margin-bottom: 12px;">INQUIRIES</div>
-          <h2 class="contact-heading">Initiate a dialogue.</h2>
+          <div class="mono-tag" style="margin-bottom: 12px;">LET'S TALK</div>
+          <h2 class="contact-heading">Reach out!</h2>
           <p class="contact-sub">
-            I am actively considering co-op and internship placements in <strong>Software Engineering, Back-End Development, and Data Systems</strong>. As a Canadian citizen, I am eligible for the <strong>SWPP Federal Wage Subsidy</strong> (covering up to 70% of wages for Canadian employers).
+            I am actively seeking co-op and internship positions in <strong>Software Engineering, Back-End Development, and Data Systems</strong>. As a Canadian citizen, I am eligible for the <strong>SWPP Federal Wage Subsidy</strong> (covering up to 70% of co-op wages for Canadian employers).
           </p>
           <button class="contact-copy-pill" onclick="copyContactEmail()">
             <span id="copyPillLabel">Copy: aallen.huang@mail.utoronto.ca</span>
             <span>↳</span>
           </button>
-          <div style="margin-top: 16px; font-size: 0.88rem; color: var(--text-muted);">
-            Feel free to reach out regarding software opportunities, technical projects, or creative collaborations. I am always glad to connect.
-          </div>
         </div>
 
         <div class="contact-links-list">
           <div class="contact-row">
             <span class="contact-lbl">Email</span>
             <span class="contact-val">
-              <a href="mailto:aallen.huang@mail.utoronto.ca">aallen.huang@mail.utoronto.ca</a>
+              <a href="mailto:aallen.huang@mail.utoronto.ca"><strong>aallen.huang@mail.utoronto.ca</strong></a>
             </span>
           </div>
 
@@ -1328,7 +1312,7 @@
             <span class="contact-lbl">LinkedIn</span>
             <span class="contact-val">
               <a href="https://www.linkedin.com/in/allen-huang-357509369/" target="_blank" rel="noopener noreferrer">
-                linkedin.com/in/allen-huang ↗
+                <strong>linkedin.com/in/allen-huang ↗</strong>
               </a>
             </span>
           </div>
@@ -1337,7 +1321,7 @@
             <span class="contact-lbl">GitHub</span>
             <span class="contact-val">
               <a href="https://github.com/allenhuangg" target="_blank" rel="noopener noreferrer">
-                github.com/allenhuangg ↗
+                <strong>github.com/allenhuangg ↗</strong>
               </a>
             </span>
           </div>
@@ -1345,20 +1329,20 @@
           <div class="contact-row">
             <span class="contact-lbl">Telephone</span>
             <span class="contact-val" style="font-family:var(--font-mono); font-size:0.95rem;">
-              +1 (306) 716-6183
+              <strong>+1 (306) 716-6183</strong>
             </span>
           </div>
 
           <div class="contact-row">
             <span class="contact-lbl">Location</span>
             <span class="contact-val">
-              Mississauga, Ontario, Canada
+              <strong>Mississauga, Ontario, Canada</strong>
             </span>
           </div>
 
           <div class="contact-row">
             <span class="contact-lbl">Government Co-op Subsidy</span>
-            <span class="contact-val" style="color:#10b981; font-family:var(--font-mono); font-size:0.92rem; font-weight:600;">
+            <span class="contact-val" style="color:#10b981; font-family:var(--font-mono); font-size:0.92rem; font-weight:700;">
                 Eligible · SWPP 70% Wage Subsidy
             </span>
           </div>
@@ -1366,7 +1350,7 @@
       </div>
 
       <footer class="site-footer">
-        <div>ALLEN HUANG — CS & STATS @ U OF T MISSISSAUGA</div>
+        <div><strong>ALLEN HUANG</strong> — CS & STATS @ U OF T MISSISSAUGA</div>
         <div><a href="#hero" style="text-decoration: underline;">Back to top ↑</a></div>
       </footer>
 
@@ -1387,24 +1371,42 @@
   </button>
 
   <!-- ==========================================================================
-       ISOLATED SCRIPT 1: NAVIGATION, CARD TILT & MODAL POPUPS (ZERO DEPENDENCIES)
+       ISOLATED SCRIPT 1: NAVIGATION, SMOOTH SCROLLING, TILT & MODALS
        ========================================================================== -->
   <script>
+    // 1. SMOOTH SCROLLING FOR TOP NAVIGATION LINKS
+    document.querySelectorAll('a[href^="#"]').forEach(link => {
+      link.addEventListener('click', function(e) {
+        const targetId = this.getAttribute('href');
+        if (!targetId || targetId === '#') return;
+        const targetEl = document.querySelector(targetId);
+        if (targetEl) {
+          e.preventDefault();
+          targetEl.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+          history.pushState(null, null, targetId);
+        }
+      });
+    });
+
+    // 2. PROJECT SPECIFICATIONS DATA
     const projectManifesto = {
       kdcanvas: {
         title: "KDCanvas — Match Telemetry & Analytics Platform",
         tech: "Node.js, Express, HTML5 Canvas API, Riot Games API",
         content: `
           <div class="mono-tag" style="margin-bottom:8px; color:#38bdf8;">RIOT GAMES API TELEMETRY PLATFORM</div>
-          <h2 style="font-size:2rem; font-weight:500; margin-bottom:14px;">KDCanvas</h2>
+          <h2 style="font-size:2rem; font-weight:600; margin-bottom:14px;">KDCanvas</h2>
           <p style="color:var(--text-sub); font-size:1.05rem; line-height:1.7; margin-bottom:24px;">
             A full-stack match analytics platform proxying the Riot Games API. Parses multi-frame coordinate timeline data for up to 100 concurrent competitive matches to render real-time interactive kill and death heatmaps on Summoner's Rift.
           </p>
           <div style="background:var(--bg-subtle); padding:24px; border-radius:16px; border:1px solid var(--border); font-family:var(--font-mono); font-size:0.8rem; line-height:1.8;">
-            <div style="color:var(--text); font-weight:600; margin-bottom:8px;">KEY CONTRIBUTIONS:</div>
-            • Exponential Backoff: Designed an automated retry engine (<code>fetchWithRetry</code>) that reads <code>retry-after</code> headers to safely absorb HTTP 429 rate limits and 5xx gateway faults without losing requests.<br>
-            • Coordinate Normalization: Converted raw 15,000×15,000 game coordinate space into accurate HTML5 Canvas heatmap projections.<br>
-            • Timeline Filters: Built interactive player filters allowing users to view ability casts, items, and individual kill/death events.
+            <div style="color:var(--text); font-weight:700; margin-bottom:8px;">KEY CONTRIBUTIONS:</div>
+            • <strong>Exponential Backoff</strong>: Designed an automated retry engine (<code>fetchWithRetry</code>) that reads <code>retry-after</code> headers to safely absorb HTTP 429 rate limits and 5xx gateway faults without losing requests.<br>
+            • <strong>Coordinate Normalization</strong>: Converted raw 15,000×15,000 game coordinate space into accurate HTML5 Canvas heatmap projections.<br>
+            • <strong>Timeline Filters</strong>: Built interactive player filters allowing users to view ability casts, items, and individual kill/death events.
           </div>
         `
       },
@@ -1413,15 +1415,15 @@
         tech: "Python, Haversine GIS, BCI Analysis, Data Pipelines",
         content: `
           <div class="mono-tag" style="margin-bottom:8px; color:#34d399;">PYTHON & GEOSPATIAL ANALYSIS</div>
-          <h2 style="font-size:2rem; font-weight:500; margin-bottom:14px;">Ontario Bridge Condition Analysis</h2>
+          <h2 style="font-size:2rem; font-weight:600; margin-bottom:14px;">Ontario Bridge Infrastructure Analysis</h2>
           <p style="color:var(--text-sub); font-size:1.05rem; line-height:1.7; margin-bottom:24px;">
             An automated data ingestion pipeline and algorithmic route planner analyzing public Ontario Ministry of Transportation infrastructure datasets to schedule critical preventative repairs.
           </p>
           <div style="background:var(--bg-subtle); padding:24px; border-radius:16px; border:1px solid var(--border); font-family:var(--font-mono); font-size:0.8rem; line-height:1.8;">
-            <div style="color:var(--text); font-weight:600; margin-bottom:8px;">KEY ALGORITHMS & IMPLEMENTATION:</div>
-            • <code>calculate_distance()</code>: Implemented the spherical Haversine formula on Earth's radius (6,371 km) to compute great-circle distance between coordinates.<br>
+            <div style="color:var(--text); font-weight:700; margin-bottom:8px;">KEY ALGORITHMS & IMPLEMENTATION:</div>
+            • <code>calculate_distance()</code>: Implemented the spherical <strong>Haversine formula</strong> on Earth's radius (6,371 km) to compute great-circle distance between coordinates.<br>
             • <code>find_bridges_in_radius()</code>: Radial geospatial querying to filter bridges around key transit corridors (e.g. Highway 403).<br>
-            • <code>map_route()</code>: Greedy route optimization algorithm that plans an inspection sequence by prioritizing the bridge with the lowest Bridge Condition Index (BCI) within range.<br>
+            • <code>map_route()</code>: Greedy route optimization algorithm that plans an inspection sequence by prioritizing the bridge with the lowest <strong>Bridge Condition Index (BCI)</strong> within range.<br>
             • <code>clean_data()</code>: Ingestion and standardization of multi-year inspection CSV data, handling missing BCI scores (-1.0).
           </div>
         `
@@ -1431,12 +1433,12 @@
         tech: "C, Linux / POSIX, Sockets, IPC, select() Concurrency",
         content: `
           <div class="mono-tag" style="margin-bottom:8px; color:#f472b6;">SYSTEMS PROGRAMMING IN C</div>
-          <h2 style="font-size:2rem; font-weight:500; margin-bottom:14px;">Networked POSIX Shell</h2>
+          <h2 style="font-size:2rem; font-weight:600; margin-bottom:14px;">Networked POSIX Shell</h2>
           <p style="color:var(--text-sub); font-size:1.05rem; line-height:1.7; margin-bottom:24px;">
             A custom Unix shell environment and synchronous I/O multiplexed TCP server engineered from scratch in C to master process lifecycles, memory safety, and non-blocking sockets.
           </p>
           <div style="background:var(--bg-subtle); padding:24px; border-radius:16px; border:1px solid var(--border); font-family:var(--font-mono); font-size:0.8rem; line-height:1.8;">
-            <div style="color:var(--text); font-weight:600; margin-bottom:8px;">KEY CONTRIBUTIONS:</div>
+            <div style="color:var(--text); font-weight:700; margin-bottom:8px;">KEY CONTRIBUTIONS:</div>
             • <code>fork()</code> & <code>execv()</code>: Custom process execution with strict heap memory cleanup.<br>
             • <code>dup2</code> IPC: Chained command output/input streams across pipe file descriptors.<br>
             • <code>sigaction</code>: Custom signal handlers safely managing interrupts and preventing zombie processes.<br>
@@ -1571,22 +1573,32 @@
   </script>
 
   <!-- ==========================================================================
-       ISOLATED SCRIPT 3: 3D PARTICLES — UNROTATED CONTAINER + DIRECT SCREEN PHYSICS
+       ISOLATED SCRIPT 3: 3D PARTICLES — SKEWER ROTATION & COUNTER-CLOCKWISE FLOWER PINWHEEL
        ========================================================================== -->
   <script>
     (function initParticleEngine() {
       const canvasEl = document.getElementById('particle-canvas');
+      const shieldEl = document.getElementById('ambient-shield');
       if (!canvasEl || typeof THREE === 'undefined') return;
 
       let scene, camera, renderer, geometry, material, points;
       const particleCount = 2400;
 
-      // Base unrotated shapes
       const basePositions    = new Float32Array(particleCount * 3);
       const targetShape      = new Float32Array(particleCount * 3);
-      // Actual live world positions rendered on screen
       const currentPositions = new Float32Array(particleCount * 3);
       const velocities       = new Float32Array(particleCount * 3);
+
+      const sectionPalettes = {
+        hero:     { particle: new THREE.Color(0xffffff), shield: 'rgba(255, 255, 255, 0.03)' },
+        projects: { particle: new THREE.Color(0x67e8f9), shield: 'rgba(56, 189, 248, 0.07)' },
+        skills:   { particle: new THREE.Color(0x6ee7b7), shield: 'rgba(52, 211, 153, 0.07)' },
+        about:    { particle: new THREE.Color(0xf472b6), shield: 'rgba(244, 114, 182, 0.07)' },
+        contact:  { particle: new THREE.Color(0x34d399), shield: 'rgba(16, 185, 129, 0.08)' }
+      };
+
+      let activeColor = sectionPalettes.hero.particle.clone();
+      let currentSection = 'hero';
 
       function createCircleTexture() {
         const c = document.createElement('canvas');
@@ -1630,31 +1642,37 @@
             else { arr[i3] = u;     arr[i3+1] = v;     arr[i3+2] = -half; }
 
           } else if (section === 'skills') {
-            // 3D TORUS RING (Donut accelerator)
+            // 3D TORUS RING (Donut tilted for vertical Y spin)
             const u = Math.random() * Math.PI * 2;
             const v = Math.random() * Math.PI * 2;
             const R = 21;
             const r = 6.5 + Math.random() * 2;
-            arr[i3]     = (R + r * Math.cos(v)) * Math.cos(u);
-            arr[i3 + 1] = (R + r * Math.cos(v)) * Math.sin(u) * 0.8;
-            arr[i3 + 2] = r * Math.sin(v);
+            const rawX = (R + r * Math.cos(v)) * Math.cos(u);
+            const rawY = (R + r * Math.cos(v)) * Math.sin(u) * 0.8;
+            const rawZ = r * Math.sin(v);
+            const tilt = 0.38;
+            arr[i3]     = rawX;
+            arr[i3 + 1] = rawY * Math.cos(tilt) - rawZ * Math.sin(tilt);
+            arr[i3 + 2] = rawY * Math.sin(tilt) + rawZ * Math.cos(tilt);
 
           } else if (section === 'about') {
-            // 3D DOUBLE HELIX
+            // 3D DOUBLE HELIX (Vertical DNA strand around Y axis)
             const t = (i / particleCount) * Math.PI * 8;
             const strand = i % 2 === 0 ? 1 : -1;
             const rad = 11;
             arr[i3]     = Math.cos(t) * rad * strand;
-            arr[i3 + 1] = (t - Math.PI * 4) * 2.8;
+            arr[i3 + 1] = (t - Math.PI * 4) * 2.8; // Vertical axis along Y
             arr[i3 + 2] = Math.sin(t) * rad * strand;
 
           } else {
-            // EXPANDING HORIZON CONSTELLATION
+            // FLOWER / RADIANT STARBURST (Face-on in X-Y screen plane)
             const theta = Math.random() * Math.PI * 2;
-            const dist = 6 + Math.random() * 34;
+            const petals = 6;
+            const petalFactor = 1.0 + 0.28 * Math.cos(petals * theta);
+            const dist = (3.5 + Math.random() * 27) * petalFactor;
             arr[i3]     = Math.cos(theta) * dist;
-            arr[i3 + 1] = (Math.random() - 0.5) * 8 - 4;
-            arr[i3 + 2] = Math.sin(theta) * dist;
+            arr[i3 + 1] = Math.sin(theta) * dist;
+            arr[i3 + 2] = (Math.random() - 0.5) * 6;
           }
         }
       }
@@ -1691,7 +1709,7 @@
         geometry.setAttribute('position', new THREE.BufferAttribute(currentPositions, 3));
 
         material = new THREE.PointsMaterial({
-          color: new THREE.Color(0xffffff),
+          color: activeColor,
           size: 1.5,
           map: createCircleTexture(),
           transparent: true,
@@ -1701,14 +1719,12 @@
         });
 
         points = new THREE.Points(geometry, material);
-        // Container stays strictly unrotated in world space to eliminate coordinate twisting bugs
         points.rotation.set(0, 0, 0);
         scene.add(points);
 
         window.addEventListener('resize', onResize);
       }
 
-      // MOUSE DRIVING
       let mouseActive = false;
       const mouse2D = new THREE.Vector2(0, 0);
       let mouseWorldX = 0;
@@ -1726,7 +1742,6 @@
         mouseActive = false;
       });
 
-      // Shockwave burst on click
       window.addEventListener('click', (e) => {
         if (e.target.closest('button') || e.target.closest('a') || e.target.closest('canvas:not(#particle-canvas)')) return;
 
@@ -1745,35 +1760,55 @@
         }
       });
 
-      let spinY = 0;
-      let spinX = 0;
+      let spinAngle = 0;
 
-      // ANIMATION LOOP: DIRECT VISUAL REACTION (NO TWISTING COORDINATE DESYNC)
       function render() {
         requestAnimationFrame(render);
 
-        // 1. The entire 3D shape smoothly glides and drifts toward the cursor
+        material.color.lerp(activeColor, 0.04);
+
         const targetSwarmX = mouseWorldX * 0.22;
         const targetSwarmY = mouseWorldY * 0.22;
         points.position.x += (targetSwarmX - points.position.x) * 0.05;
         points.position.y += (targetSwarmY - points.position.y) * 0.05;
 
-        // Container rotation is locked to (0,0,0)
         points.rotation.set(0, 0, 0);
 
-        // 2. Rotate the shape mathematically in world space
-        spinY += 0.0022;
-        spinX += 0.0006;
-        const rotY = spinY + mouse2D.x * 0.35;
-        const rotX = spinX - mouse2D.y * 0.25;
+        spinAngle += 0.0026;
 
+        let rotY = 0;
+        let rotX = 0;
+        let rotZ = 0;
+
+        if (currentSection === 'skills') {
+          // Y-AXIS SKEWER: Donut spins around vertical pole
+          rotY = spinAngle * 1.5 + mouse2D.x * 0.35;
+          rotX = -mouse2D.y * 0.08;
+          rotZ = 0;
+        } else if (currentSection === 'about') {
+          // Y-AXIS SKEWER: Spiral spins 25% SLOWER (1.5 * 0.75 = 1.125)
+          rotY = spinAngle * 1.125 + mouse2D.x * 0.35;
+          rotX = -mouse2D.y * 0.08;
+          rotZ = 0;
+        } else if (currentSection === 'contact') {
+          // Z-AXIS FLOWER PINWHEEL: Counter-clockwise in screen plane
+          rotZ = spinAngle * 1.8 + mouse2D.x * 0.25;
+          rotY = mouse2D.x * 0.08;
+          rotX = -mouse2D.y * 0.08;
+        } else {
+          // Multi-axis for Hero and Projects
+          rotY = spinAngle + mouse2D.x * 0.35;
+          rotX = spinAngle * 0.45 - mouse2D.y * 0.25;
+          rotZ = 0;
+        }
+
+        const cosZ = Math.cos(rotZ), sinZ = Math.sin(rotZ);
         const cosY = Math.cos(rotY), sinY = Math.sin(rotY);
         const cosX = Math.cos(rotX), sinX = Math.sin(rotX);
 
         for (let i = 0; i < particleCount; i++) {
           const i3 = i * 3;
 
-          // Smoothly interpolate base shape toward target geometry
           basePositions[i3]     += (targetShape[i3] - basePositions[i3]) * 0.04;
           basePositions[i3 + 1] += (targetShape[i3 + 1] - basePositions[i3 + 1]) * 0.04;
           basePositions[i3 + 2] += (targetShape[i3 + 2] - basePositions[i3 + 2]) * 0.04;
@@ -1782,29 +1817,31 @@
           const by = basePositions[i3 + 1];
           const bz = basePositions[i3 + 2];
 
-          // Rotate around Y
-          const rx = bx * cosY - bz * sinY;
-          const rz = bx * sinY + bz * cosY;
+          // 1. Rotate around Z (Pinwheel / Flower spin in the screen plane)
+          const zX = bx * cosZ - by * sinZ;
+          const zY = bx * sinZ + by * cosZ;
+          const zZ = bz;
 
-          // Rotate around X
+          // 2. Rotate around Y (Vertical skewer rotation)
+          const rx = zX * cosY - zZ * sinY;
+          const rz = zX * sinY + zZ * cosY;
+
+          // 3. Rotate around X
           const targetX = rx;
-          const targetY = by * cosX - rz * sinX;
-          const targetZ = by * sinX + rz * cosX;
+          const targetY = zY * cosX - rz * sinX;
+          const targetZ = zY * sinX + rz * cosX;
 
-          // Spring force pulling particle to its visual rotated target
           velocities[i3]     += (targetX - currentPositions[i3]) * 0.035;
           velocities[i3 + 1] += (targetY - currentPositions[i3 + 1]) * 0.035;
           velocities[i3 + 2] += (targetZ - currentPositions[i3 + 2]) * 0.035;
 
-          // 3. ZERO-ERROR DIRECT SCREEN REPULSION
-          // Compares the exact physical pixel location on screen to your cursor
           if (mouseActive) {
             const visualScreenX = currentPositions[i3] + points.position.x;
             const visualScreenY = currentPositions[i3 + 1] + points.position.y;
             const dx = visualScreenX - mouseWorldX;
             const dy = visualScreenY - mouseWorldY;
             const distSq = dx * dx + dy * dy;
-            const thresholdSq = 49; // ~7 world units
+            const thresholdSq = 49;
 
             if (distSq < thresholdSq) {
               const dist = Math.sqrt(distSq);
@@ -1815,7 +1852,6 @@
             }
           }
 
-          // Friction damping
           velocities[i3]     *= 0.88;
           velocities[i3 + 1] *= 0.88;
           velocities[i3 + 2] *= 0.88;
@@ -1839,8 +1875,6 @@
       init();
       render();
 
-      // SCROLL-BASED SHAPE MORPHING
-      let currentSection = 'hero';
       const sectionIds = ['hero', 'projects', 'skills', 'about', 'contact'];
 
       function handleScrollMorph() {
@@ -1855,6 +1889,12 @@
                 currentSection = id;
                 computeShape(id, targetShape);
 
+                const pal = sectionPalettes[id] || sectionPalettes.hero;
+                activeColor = pal.particle;
+                if (shieldEl) {
+                  shieldEl.style.background = `radial-gradient(circle at 50% 50%, ${pal.shield} 0%, rgba(9, 9, 11, 0.78) 100%)`;
+                }
+
                 document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
                 const active = document.getElementById('link-' + id);
                 if (active) active.classList.add('active');
@@ -1868,7 +1908,8 @@
 
       window.updateParticleTheme = function(isDark) {
         if (material) {
-          material.color.set(isDark ? 0xffffff : 0x111114);
+          const pal = sectionPalettes[currentSection] || sectionPalettes.hero;
+          activeColor = isDark ? pal.particle : new THREE.Color(0x111114);
         }
       };
     })();
