@@ -1,0 +1,1899 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Allen Huang — Software Developer | U of T Mississauga</title>
+  <meta name="description" content="Portfolio of Allen Huang — Computer Science student at University of Toronto Mississauga. Software development in Python, C, Node.js, and Java." />
+
+  <!-- Fonts: Instrument Serif + Inter + JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Three.js for 3D Particle Swarm & Physics -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <style>
+    /* ==========================================================================
+       DESIGN SYSTEM: CLEAN, HIGH-CONTRAST MONOCHROME
+       ========================================================================== */
+    :root {
+      --font-serif: 'Instrument Serif', Georgia, serif;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-mono: 'JetBrains Mono', Menlo, Consolas, monospace;
+
+      --bg: #09090b;
+      --bg-subtle: #121216;
+      --panel: rgba(18, 18, 24, 0.88);
+      --border: rgba(255, 255, 255, 0.12);
+      --border-hover: rgba(255, 255, 255, 0.28);
+      
+      --text: #ffffff;
+      --text-sub: #d4d4d8;
+      --text-muted: #a1a1aa;
+      --text-dim: #71717a;
+      
+      --accent: #ffffff;
+      --accent-invert: #000000;
+      --pill-bg: rgba(255, 255, 255, 0.06);
+
+      --ease-spring: cubic-bezier(0.25, 1, 0.5, 1);
+      --container-max: 1220px;
+    }
+
+    [data-theme="light"] {
+      --bg: #f8f8fa;
+      --bg-subtle: #eeeff2;
+      --panel: rgba(255, 255, 255, 0.94);
+      --border: rgba(0, 0, 0, 0.12);
+      --border-hover: rgba(0, 0, 0, 0.28);
+      
+      --text: #09090b;
+      --text-sub: #27272a;
+      --text-muted: #52525b;
+      --text-dim: #71717a;
+      
+      --accent: #000000;
+      --accent-invert: #ffffff;
+      --pill-bg: rgba(0, 0, 0, 0.05);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-sans);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      overflow-x: hidden;
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* Fixed Scroll Offset so the nav bar never overlaps section titles */
+    section[id] {
+      scroll-margin-top: 110px;
+    }
+
+    /* 3D Canvas Background */
+    #particle-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* Subtle backdrop shield so text is always 100% legible */
+    .bg-shield {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at 50% 50%, rgba(9, 9, 11, 0.15) 0%, rgba(9, 9, 11, 0.75) 100%);
+      pointer-events: none;
+      z-index: 1;
+    }
+    [data-theme="light"] .bg-shield {
+      background: radial-gradient(circle at 50% 50%, rgba(248, 248, 250, 0.15) 0%, rgba(248, 248, 250, 0.75) 100%);
+    }
+
+    .container {
+      width: 100%;
+      max-width: var(--container-max);
+      margin-inline: auto;
+      padding-inline: 36px;
+      position: relative;
+      z-index: 2;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button { background: none; border: none; color: inherit; font-family: inherit; cursor: pointer; }
+
+    .italic-serif {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-weight: 400;
+    }
+
+    .mono-tag {
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* ==========================================================================
+       TOP NAVIGATION
+       ========================================================================== */
+    .nav-wrap {
+      position: fixed;
+      top: 24px;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: center;
+      pointer-events: none;
+    }
+
+    .nav-dock {
+      pointer-events: auto;
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      padding: 8px 12px 8px 22px;
+      border-radius: 9999px;
+      background: var(--panel);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      border: 1px solid var(--border);
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35);
+      transition: border-color 200ms ease;
+    }
+
+    .nav-dock:hover { border-color: var(--border-hover); }
+
+    .nav-name {
+      font-weight: 600;
+      font-size: 0.95rem;
+      letter-spacing: -0.01em;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      list-style: none;
+    }
+
+    .nav-link {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      transition: color 150ms ease;
+    }
+
+    .nav-link:hover, .nav-link.active {
+      color: var(--text);
+    }
+
+    .nav-contact-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: 9999px;
+      background: var(--text);
+      color: var(--bg);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: transform 180ms var(--ease-spring), opacity 150ms ease;
+    }
+
+    .nav-contact-btn:hover {
+      transform: scale(1.03);
+      opacity: 0.92;
+    }
+
+    /* ==========================================================================
+       HERO SECTION
+       ========================================================================== */
+    .hero-section {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding-bottom: 96px;
+      position: relative;
+    }
+
+    .hero-meta-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 16px;
+      margin-bottom: 40px;
+    }
+
+    .hero-title {
+      font-size: clamp(2.8rem, 6.2vw, 5.6rem);
+      font-weight: 400;
+      line-height: 1.05;
+      letter-spacing: -0.035em;
+      margin-bottom: 36px;
+      max-width: 1080px;
+      color: var(--text);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 56px;
+      align-items: flex-end;
+    }
+
+    .hero-bio {
+      font-size: 1.18rem;
+      font-weight: 400;
+      line-height: 1.75;
+      color: var(--text-sub);
+      max-width: 580px;
+    }
+
+    .hero-bio strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .hero-specs {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 12px;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .hero-spec-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .hero-spec-row span:last-child {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    /* ==========================================================================
+       PROJECTS SECTION
+       ========================================================================== */
+    .section-wrap {
+      padding: 120px 0;
+      position: relative;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 56px;
+    }
+
+    .section-title {
+      font-size: clamp(2rem, 3.8vw, 3.2rem);
+      font-weight: 400;
+      letter-spacing: -0.025em;
+      line-height: 1.1;
+      color: var(--text);
+    }
+
+    .projects-list {
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
+    }
+
+    /* Project Card with 3D Tilt */
+    .project-card {
+      border-radius: 28px;
+      background: var(--panel);
+      backdrop-filter: blur(32px);
+      border: 1px solid var(--border);
+      padding: 52px;
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 48px;
+      position: relative;
+      cursor: pointer;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+      transform-style: preserve-3d;
+      transition: border-color 200ms ease, box-shadow 200ms ease, transform 180ms ease-out;
+    }
+
+    .project-card:hover {
+      border-color: var(--border-hover);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+    }
+
+    .project-info {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .project-tagline {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .project-name {
+      font-size: clamp(1.8rem, 2.5vw, 2.3rem);
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      color: var(--text);
+    }
+
+    .project-desc {
+      font-size: 1.02rem;
+      line-height: 1.7;
+      color: var(--text-sub);
+      margin-bottom: 24px;
+    }
+
+    .project-bullets {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 32px;
+      font-size: 0.94rem;
+    }
+
+    .project-bullets li {
+      display: flex;
+      gap: 10px;
+      color: var(--text-sub);
+      line-height: 1.55;
+    }
+
+    .project-bullets code {
+      font-family: var(--font-mono);
+      font-size: 0.85em;
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.08);
+      padding: 2px 6px;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+    }
+
+    .bullet-arrow {
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+    }
+
+    .project-techs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+
+    .tech-pill {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      background: var(--pill-bg);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+    }
+
+    .project-cta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .project-preview-stage {
+      border-radius: 20px;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      min-height: 320px;
+    }
+
+    /* AUTHENTIC KDCANVAS MATCH DASHBOARD STAGE */
+    .kd-dashboard-replica {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      font-family: var(--font-sans);
+    }
+
+    .kd-match-list-col {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .kd-match-item {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      padding: 8px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .kd-champ-slot {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .kd-champ-badge {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #27272a;
+      display: grid;
+      place-items: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .kd-stats-summary-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    .kd-stat-tile {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      padding: 10px;
+    }
+
+    .kd-stat-label {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      letter-spacing: 0.06em;
+      margin-bottom: 2px;
+    }
+
+    .kd-stat-val {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* Bridge Code Preview */
+    .bridge-code-preview {
+      width: 100%;
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      line-height: 1.6;
+      color: var(--text-muted);
+    }
+    .code-comment { color: #71717a; }
+    .code-fn { color: #60a5fa; font-weight: 600; }
+    .code-kw { color: #f472b6; }
+    .code-val { color: #34d399; }
+
+    /* Shell Pipeline Preview */
+    .shell-preview-box {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      line-height: 1.7;
+      color: var(--text-sub);
+    }
+
+    /* ==========================================================================
+       THE 4 FLASHCARDS FOR LANGUAGES & TECHNOLOGIES
+       ========================================================================== */
+    .flashcards-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .flashcard {
+      border-radius: 20px;
+      background: var(--panel);
+      backdrop-filter: blur(28px);
+      border: 1px solid var(--border);
+      padding: 32px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      transition: transform 200ms ease, border-color 200ms ease;
+    }
+
+    .flashcard:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-4px);
+    }
+
+    .flashcard-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text);
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+      letter-spacing: -0.01em;
+    }
+
+    .flashcard-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      font-family: var(--font-sans);
+      font-size: 0.95rem;
+      color: var(--text-sub);
+    }
+
+    .flashcard-list li {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 500;
+    }
+
+    .flashcard-list li::before {
+      content: "";
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--text-muted);
+    }
+
+    /* ==========================================================================
+       ABOUT SECTION
+       ========================================================================== */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 48px;
+      align-items: start;
+    }
+
+    .about-card {
+      border-radius: 28px;
+      background: var(--panel);
+      backdrop-filter: blur(32px);
+      border: 1px solid var(--border);
+      padding: 48px;
+    }
+
+    .about-text {
+      font-size: 1.15rem;
+      line-height: 1.8;
+      color: var(--text-sub);
+      margin-bottom: 36px;
+    }
+
+    .about-text p + p { margin-top: 18px; }
+    .about-text strong { color: var(--text); font-weight: 600; }
+
+    .education-box {
+      border-radius: 16px;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      padding: 24px;
+    }
+
+    .edu-school { font-size: 1.2rem; font-weight: 500; color: var(--text); margin-bottom: 2px; }
+    .edu-degree { color: var(--text-sub); font-size: 0.95rem; margin-bottom: 14px; }
+
+    .sidebar-interests {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .interest-card {
+      border-radius: 24px;
+      background: var(--panel);
+      backdrop-filter: blur(28px);
+      border: 1px solid var(--border);
+      padding: 32px;
+    }
+
+    .interest-title {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .interest-desc {
+      font-size: 0.95rem;
+      color: var(--text-sub);
+      line-height: 1.6;
+    }
+
+    #sketchPadCanvas {
+      width: 100%;
+      height: 140px;
+      border-radius: 10px;
+      background: #08080c;
+      border: 1px solid var(--border);
+      display: block;
+      margin-top: 12px;
+      cursor: crosshair;
+      touch-action: none;
+    }
+
+    /* ==========================================================================
+       CONTACT SECTION
+       ========================================================================== */
+    .contact-card {
+      border-radius: 32px;
+      background: var(--panel);
+      backdrop-filter: blur(36px);
+      border: 1px solid var(--border);
+      padding: 64px 56px;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 56px;
+      align-items: center;
+      margin-bottom: 64px;
+    }
+
+    .contact-heading {
+      font-size: clamp(2.2rem, 4vw, 3.5rem);
+      font-weight: 400;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 18px;
+      color: var(--text);
+    }
+
+    .contact-sub {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: var(--text-sub);
+      margin-bottom: 32px;
+    }
+
+    .contact-copy-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 26px;
+      border-radius: 9999px;
+      background: var(--text);
+      color: var(--bg);
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 600;
+      transition: transform 180ms var(--ease-spring), opacity 150ms ease;
+    }
+    .contact-copy-pill:hover { transform: scale(1.02); opacity: 0.94; }
+
+    .contact-links-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      border-left: 1px solid var(--border);
+      padding-left: 48px;
+    }
+
+    .contact-row { display: flex; flex-direction: column; gap: 2px; }
+    .contact-lbl {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+    }
+    .contact-val {
+      font-size: 1.05rem;
+      color: var(--text);
+    }
+    .contact-val a:hover { text-decoration: underline; }
+
+    /* Footer */
+    .site-footer {
+      padding: 36px 0 56px;
+      border-top: 1px solid var(--border);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* Modal Backdrop */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(24px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 32px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 200ms ease;
+    }
+    .modal-overlay.active { opacity: 1; pointer-events: auto; }
+
+    .modal-card {
+      width: 100%;
+      max-width: 780px;
+      max-height: 88vh;
+      overflow-y: auto;
+      border-radius: 28px;
+      background: var(--bg);
+      border: 1px solid var(--border-hover);
+      padding: 48px;
+      box-shadow: 0 32px 80px rgba(0, 0, 0, 0.7);
+    }
+
+    .modal-close-btn {
+      float: right;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      padding: 6px 14px;
+      border-radius: 9999px;
+      border: 1px solid var(--border);
+    }
+    .modal-close-btn:hover { color: var(--text); border-color: var(--border-hover); }
+
+    .theme-toggle-btn {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--panel);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border);
+      display: grid;
+      place-items: center;
+      z-index: 100;
+      cursor: pointer;
+      color: var(--text-muted);
+      transition: border-color 150ms ease, color 150ms ease;
+    }
+    .theme-toggle-btn:hover { border-color: var(--border-hover); color: var(--text); }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .project-card { grid-template-columns: 1fr; padding: 40px; }
+      .flashcards-grid { grid-template-columns: repeat(2, 1fr); }
+      .about-grid { grid-template-columns: 1fr; }
+      .contact-card { grid-template-columns: 1fr; padding: 44px 32px; }
+      .contact-links-list { border-left: none; border-top: 1px solid var(--border); padding-left: 0; padding-top: 28px; }
+    }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hero-grid { grid-template-columns: 1fr; gap: 28px; }
+      .hero-specs { align-items: flex-start; }
+      .flashcards-grid { grid-template-columns: 1fr; }
+      .site-footer { flex-direction: column; gap: 12px; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Interactive 3D Particle Physics Canvas -->
+  <canvas id="particle-canvas"></canvas>
+  <div class="bg-shield" aria-hidden="true"></div>
+
+  <!-- FLOATING NAVIGATION -->
+  <header class="nav-wrap">
+    <nav class="nav-dock" aria-label="Main Navigation">
+      <a href="#hero" class="nav-name" aria-label="Allen Huang Homepage">
+        <span>Allen Huang</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#projects" class="nav-link" id="link-projects">Projects</a></li>
+        <li><a href="#skills" class="nav-link" id="link-skills">Skills</a></li>
+        <li><a href="#about" class="nav-link" id="link-about">About</a></li>
+        <li><a href="#contact" class="nav-link" id="link-contact">Contact</a></li>
+      </ul>
+
+      <a href="#contact" class="nav-contact-btn">
+        <span>Get in touch</span>
+        <span>↳</span>
+      </a>
+    </nav>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section id="hero" class="hero-section">
+    <div class="container">
+      
+      <div class="hero-meta-bar">
+        <div class="mono-tag">COMPUTER SCIENCE @ UNIVERSITY OF TORONTO MISSISSAUGA</div>
+        <div class="mono-tag">MISSISSAUGA, ON · CLASS OF 2028</div>
+      </div>
+
+      <h1 class="hero-title">
+        Building <span class="italic-serif">reliable</span> back-ends, web applications, and low-level systems.
+      </h1>
+
+      <div class="hero-grid">
+        <p class="hero-bio">
+          I'm <strong>Allen Huang</strong>, a software developer and Computer Science student at U of T Mississauga. I build full-stack web applications in <strong>Node.js</strong> and <strong>JavaScript</strong>, low-level POSIX environments in <strong>C</strong>, and data algorithms in <strong>Python</strong>.
+        </p>
+
+        <div class="hero-specs">
+          <div class="hero-spec-row">
+            <span>EDUCATION</span>
+            <span>U of T Mississauga (H.BSc)</span>
+          </div>
+          <div class="hero-spec-row">
+            <span>ROLE FOCUS</span>
+            <span>Software Engineering (Back-End & Full-Stack)</span>
+          </div>
+          <div class="hero-spec-row">
+            <span>CO-OP STATUS</span>
+            <span style="color:#10b981; font-weight:600;">Eligible for SWPP 70% Wage Subsidy</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SECTION: PROJECTS -->
+  <section id="projects" class="section-wrap">
+    <div class="container">
+      
+      <div class="section-header">
+        <div>
+          <div class="mono-tag" style="margin-bottom: 8px;">FEATURED WORK</div>
+          <h2 class="section-title">Projects I've Built</h2>
+        </div>
+        <div class="mono-tag">CLICK FOR ARCHITECTURE & DETAILS</div>
+      </div>
+
+      <div class="projects-list">
+        
+        <!-- PROJECT 1: KDCanvas -->
+        <article class="project-card" data-project="kdcanvas">
+          <div class="project-info">
+            <div>
+              <div class="project-tagline">
+                <span class="mono-tag">FULL-STACK TELEMETRY</span>
+                <span class="mono-tag" style="color:#38bdf8;">Node.js · Express · Canvas</span>
+              </div>
+              <h3 class="project-name">KDCanvas — Match Telemetry & Analytics</h3>
+              <p class="project-desc">
+                A full-stack match analytics platform proxying the Riot Games API. Ingests match timeline coordinates and plots real-time interactive kill and death events on Summoner's Rift.
+              </p>
+              <ul class="project-bullets">
+                <li>
+                  <span class="bullet-arrow">↳</span>
+                  <span>Engineered an automated exponential backoff and retry pipeline (<code>fetchWithRetry</code>) that reads <code>retry-after</code> headers to absorb HTTP 429 rate limits and 5xx gateway faults without losing requests.</span>
+                </li>
+                <li>
+                  <span class="bullet-arrow">↳</span>
+                  <span>Built an interactive visualizer with the HTML5 Canvas API to normalize 15,000×15,000 Riot coordinate space into live coordinate plots with champion portraits.</span>
+                </li>
+                <li>
+                  <span class="bullet-arrow">↳</span>
+                  <span>Aggregated player telemetry across matches to calculate matchup win rates, item trends, rune stats, and individual ability cast counts (Q, W, E, R).</span>
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <div class="project-techs">
+                <span class="tech-pill">JavaScript (ES6+)</span>
+                <span class="tech-pill">Node.js</span>
+                <span class="tech-pill">Express.js</span>
+                <span class="tech-pill">HTML5 Canvas API</span>
+                <span class="tech-pill">REST APIs</span>
+              </div>
+              <div class="project-cta">
+                <span>View Project Breakdown</span>
+                <span>↳</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Authentic KDCanvas Match History & Winrate Dashboard Stage -->
+          <div class="project-preview-stage">
+            <div class="kd-dashboard-replica">
+              <div class="mono-tag" style="font-size:0.65rem; color:#38bdf8; margin-bottom:4px;">
+                MATCH TELEMETRY & MATCHUP ANALYSIS
+              </div>
+              
+              <!-- Match list with KDA and Win/Loss -->
+              <div class="kd-match-list-col">
+                <div class="kd-match-item">
+                  <div class="kd-champ-slot">
+                    <div class="kd-champ-badge" style="border-color:#10b981;">K</div>
+                    <div>
+                      <div style="font-size:0.85rem; font-weight:600;">Kai'Sa</div>
+                      <div style="font-size:0.7rem; color:var(--text-muted);">14 / 4 / 9</div>
+                    </div>
+                  </div>
+                  <div style="text-align:right;">
+                    <div style="font-size:0.8rem; font-weight:700; color:#10b981;">WIN</div>
+                    <div style="font-size:0.7rem; color:var(--text-muted);">5.75 KDA</div>
+                  </div>
+                </div>
+
+                <div class="kd-match-item">
+                  <div class="kd-champ-slot">
+                    <div class="kd-champ-badge" style="border-color:#10b981;">R</div>
+                    <div>
+                      <div style="font-size:0.85rem; font-weight:600;">Riven</div>
+                      <div style="font-size:0.7rem; color:var(--text-muted);">8 / 4 / 3</div>
+                    </div>
+                  </div>
+                  <div style="text-align:right;">
+                    <div style="font-size:0.8rem; font-weight:700; color:#10b981;">WIN</div>
+                    <div style="font-size:0.7rem; color:var(--text-muted);">2.75 KDA</div>
+                  </div>
+                </div>
+
+                <div class="kd-match-item">
+                  <div class="kd-champ-slot">
+                    <div class="kd-champ-badge" style="border-color:#ef4444;">K</div>
+                    <div>
+                      <div style="font-size:0.85rem; font-weight:600;">Kalista</div>
+                      <div style="font-size:0.7rem; color:var(--text-muted);">13 / 7 / 4</div>
+                    </div>
+                  </div>
+                  <div style="text-align:right;">
+                    <div style="font-size:0.8rem; font-weight:700; color:#ef4444;">LOSS</div>
+                    <div style="font-size:0.7rem; color:var(--text-muted);">2.43 KDA</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Stat summaries: Best item & lowest WR against champion -->
+              <div class="kd-stats-summary-grid">
+                <div class="kd-stat-tile">
+                  <div class="kd-stat-label">COMMON WON ITEM</div>
+                  <div class="kd-stat-val">Infinity Edge <span style="color:#10b981; font-size:0.75rem;">(68% WR)</span></div>
+                </div>
+                <div class="kd-stat-tile">
+                  <div class="kd-stat-label">LOWEST WR VS CHAMPION</div>
+                  <div class="kd-stat-val">Master Yi <span style="color:#ef4444; font-size:0.75rem;">(0% WR)</span></div>
+                </div>
+                <div class="kd-stat-tile">
+                  <div class="kd-stat-label">BEST MATCHUP</div>
+                  <div class="kd-stat-val">Kai'Sa <span style="color:#10b981; font-size:0.75rem;">(100% WR)</span></div>
+                </div>
+                <div class="kd-stat-tile">
+                  <div class="kd-stat-label">COMMON RUNE</div>
+                  <div class="kd-stat-val">Conqueror <span style="color:#10b981; font-size:0.75rem;">(56% WR)</span></div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </article>
+
+        <!-- PROJECT 2: Ontario Bridge Data Analysis -->
+        <article class="project-card" data-project="bridges">
+          <div class="project-info">
+            <div>
+              <div class="project-tagline">
+                <span class="mono-tag">GEOSPATIAL ALGORITHMS</span>
+                <span class="mono-tag" style="color:#34d399;">Python · Data Engineering</span>
+              </div>
+              <h3 class="project-name">Ontario Bridge Infrastructure Analysis</h3>
+              <p class="project-desc">
+                An automated data pipeline and routing algorithm analyzing provincial Ministry of Transportation infrastructure records to evaluate Bridge Condition Indices (BCI) and optimize inspection routes.
+              </p>
+              <ul class="project-bullets">
+                <li>
+                  <span class="bullet-arrow">↳</span>
+                  <span>Cleaned and normalized multi-year provincial Bridge Condition Index (BCI) CSV datasets, handling missing values and structural span details.</span>
+                </li>
+                <li>
+                  <span class="bullet-arrow">↳</span>
+                  <span>Implemented the <code>Haversine</code> spherical formula in <code>calculate_distance()</code> to query bridge coordinates within radius zones.</span>
+                </li>
+                <li>
+                  <span class="bullet-arrow">↳</span>
+                  <span>Wrote a greedy route-optimization algorithm (<code>map_route()</code>) that algorithmically plans an inspection patrol by prioritizing the lowest-condition bridge within reach.</span>
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <div class="project-techs">
+                <span class="tech-pill">Python</span>
+                <span class="tech-pill">Haversine GIS</span>
+                <span class="tech-pill">BCI Modeling</span>
+                <span class="tech-pill">Data Cleaning</span>
+                <span class="tech-pill">Greedy Algorithms</span>
+              </div>
+              <div class="project-cta">
+                <span>View Functions & Code</span>
+                <span>↳</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bridge Code Stage -->
+          <div class="project-preview-stage">
+            <div class="bridge-code-preview">
+              <div class="code-comment"># Ontario Ministry of Transportation Infrastructure Analysis</div>
+              <div><span class="code-kw">def</span> <span class="code-fn">map_route</span>(bridges, lat, lon, max_bridges, radius):</div>
+              <div style="padding-left:14px;">
+                <div><span class="code-comment"># Find bridges within Haversine radius</span></div>
+                <div>in_range = [b <span class="code-kw">for</span> b <span class="code-kw">in</span> bridges</div>
+                <div style="padding-left:14px;"><span class="code-kw">if</span> <span class="code-fn">calculate_distance</span>(lat, lon, b[<span class="code-val">3</span>], b[<span class="code-val">4</span>]) <= radius]</div>
+                <div><span class="code-comment"># Prioritize worst condition index (BCI)</span></div>
+                <div>worst_id = <span class="code-fn">find_worst_bci</span>(in_range, ids)</div>
+                <div>route.append(worst_id)</div>
+              </div>
+              <div style="margin-top: 10px; color: var(--text-dim); font-size: 0.68rem; border-top: 1px dashed var(--border); padding-top: 6px;">
+                OUTPUT: ROUTE [2, 1] · OPTIMIZED FOR CRITICAL REPAIRS
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- PROJECT 3: Networked POSIX Shell -->
+        <article class="project-card" data-project="posix">
+          <div class="project-info">
+            <div>
+              <div class="project-tagline">
+                <span class="mono-tag">SYSTEMS PROGRAMMING</span>
+                <span class="mono-tag" style="color:#f472b6;">C & Unix Kernel</span>
+              </div>
+              <h3 class="project-name">Networked POSIX Shell & TCP Server</h3>
+              <p class="project-desc">
+                A custom Unix shell environment and concurrent TCP server engineered in C, implementing process lifecycle management, background jobs, and synchronous I/O multiplexing.
+              </p>
+              <ul class="project-bullets">
+                <li>
+                  <span class="bullet-arrow">↳</span>
+                  <span>Implemented process execution and background job control using <code>fork()</code> and <code>execv()</code> with strict heap memory management.</span>
+                </li>
+                <li>
+                  <span class="bullet-arrow">↳</span>
+                  <span>Engineered Inter-Process Communication (IPC) pipelines using <code>dup2</code> and installed custom <code>sigaction</code> interrupt handlers.</span>
+                </li>
+                <li>
+                  <span class="bullet-arrow">↳</span>
+                  <span>Architected a multiplexed TCP server using <code>select()</code>, handling multiple simultaneous client sockets with minimal CPU overhead over multi-threading.</span>
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <div class="project-techs">
+                <span class="tech-pill">C</span>
+                <span class="tech-pill">Linux / POSIX</span>
+                <span class="tech-pill">Unix Sockets</span>
+                <span class="tech-pill">IPC (dup2)</span>
+                <span class="tech-pill">select() Event Loop</span>
+              </div>
+              <div class="project-cta">
+                <span>View Project Breakdown</span>
+                <span>↳</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Terminal Pipeline Stage -->
+          <div class="project-preview-stage">
+            <div class="shell-preview-box">
+              <div style="color:var(--text-muted); margin-bottom:6px;">$ ./posix_net_server --port 8080</div>
+              <div style="color:#60a5fa;">[SOCKET] bind() + listen() active on port 8080</div>
+              <div style="color:#34d399;">[SELECT] monitoring file descriptors {0, 1, 4}</div>
+              <div>[IPC] fork() child PID 48102 → stdout redirected via dup2</div>
+              <div>[SIGNAL] sigaction(SIGCHLD) registered (no zombies)</div>
+              <div style="margin-top:10px; color:#fff;">_ <span style="animation: pulse 1s infinite;">■</span></div>
+            </div>
+          </div>
+        </article>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SECTION: THE 4 FLASHCARDS FOR LANGUAGES & TECHNOLOGIES -->
+  <section id="skills" class="section-wrap" style="padding-top: 0;">
+    <div class="container">
+      
+      <div class="section-header">
+        <div>
+          <div class="mono-tag" style="margin-bottom: 8px;">TECHNICAL TOOLKIT</div>
+          <h2 class="section-title">Languages & Technologies</h2>
+        </div>
+        <div class="mono-tag">SKILLS & COMPETENCIES</div>
+      </div>
+
+      <div class="flashcards-grid">
+        
+        <!-- CARD 1: Languages -->
+        <div class="flashcard">
+          <h3 class="flashcard-title">Languages</h3>
+          <ul class="flashcard-list">
+            <li>Python</li>
+            <li>C</li>
+            <li>Java</li>
+            <li>JavaScript (ES6+)</li>
+            <li>SQL</li>
+            <li>Bash</li>
+          </ul>
+        </div>
+
+        <!-- CARD 2: Frameworks & Libraries -->
+        <div class="flashcard">
+          <h3 class="flashcard-title">Frameworks & Libs</h3>
+          <ul class="flashcard-list">
+            <li>Node.js</li>
+            <li>Express.js</li>
+            <li>HTML5 Canvas API</li>
+            <li>Pandas</li>
+            <li>NumPy</li>
+            <li>JavaFX</li>
+          </ul>
+        </div>
+
+        <!-- CARD 3: Tools & Systems -->
+        <div class="flashcard">
+          <h3 class="flashcard-title">Tools & Systems</h3>
+          <ul class="flashcard-list">
+            <li>Git</li>
+            <li>Linux / POSIX Shell</li>
+            <li>Unix Sockets</li>
+            <li>IPC Pipelines</li>
+            <li>Docker</li>
+            <li>REST APIs</li>
+          </ul>
+        </div>
+
+        <!-- CARD 4: Concepts -->
+        <div class="flashcard">
+          <h3 class="flashcard-title">Concepts</h3>
+          <ul class="flashcard-list">
+            <li>Systems Programming</li>
+            <li>Back-End Architecture</li>
+            <li>I/O Multiplexing (select)</li>
+            <li>Data Pipelines & ETL</li>
+            <li>MVC & Command Pattern</li>
+            <li>Haversine Geospatial Math</li>
+          </ul>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SECTION: ABOUT -->
+  <section id="about" class="section-wrap" style="padding-top: 0;">
+    <div class="container">
+      
+      <div class="section-header">
+        <div>
+          <div class="mono-tag" style="margin-bottom: 8px;">BACKGROUND</div>
+          <h2 class="section-title">About Me</h2>
+        </div>
+        <div class="mono-tag">EDUCATION & INTERESTS</div>
+      </div>
+
+      <div class="about-grid">
+        
+        <div class="about-card">
+          <div class="about-text">
+            <p>
+              I am a Computer Science student at the <strong>University of Toronto Mississauga</strong>. I like building software where performance, reliability, and architecture matter: ensuring child processes don't leak memory, handling rate-limits gracefully on live API feeds, and writing clean mathematical algorithms.
+            </p>
+            <p>
+              My main technical interests are in <strong>Back-End Development, Full-Stack Applications, and Systems Programming</strong>. I like having a clear understanding of how data travels across network sockets and how operating systems execute tasks.
+            </p>
+          </div>
+
+          <div class="education-box">
+            <div class="mono-tag" style="margin-bottom: 6px;">UNIVERSITY EDUCATION</div>
+            <div class="edu-school">University of Toronto Mississauga</div>
+            <div class="edu-degree">Honours Bachelor of Science (H.BSc) in Computer Science • Expected Apr 2028</div>
+            <div class="mono-tag" style="margin-bottom: 8px;">COMPLETED & ONGOING COURSEWORK:</div>
+            <div class="project-techs" style="margin-bottom: 0;">
+              <span class="tech-pill">Data Structures & Algorithms</span>
+              <span class="tech-pill">Systems Programming (C / Unix)</span>
+              <span class="tech-pill">Operating Systems</span>
+              <span class="tech-pill">Object-Oriented Programming</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="sidebar-interests">
+          
+          <div class="interest-card">
+            <div class="interest-title">Drawing & Visual Arts</div>
+            <p class="interest-desc">
+              Drawing keeps my creative side active. It also directly inspired my <strong>JavaFX Paint Application</strong>, where I implemented the Command pattern to build a lossless undo/redo history system.
+            </p>
+            <canvas id="sketchPadCanvas" title="Quick doodle pad"></canvas>
+            <div style="display:flex; justify-content:space-between; margin-top:8px; font-family:var(--font-mono); font-size:0.68rem; color:var(--text-muted);">
+              <span>CLICK & DRAG TO DOODLE</span>
+              <button onclick="clearSketchPad()" style="color:var(--text); text-decoration:underline;">Clear</button>
+            </div>
+          </div>
+
+          <div class="interest-card">
+            <div class="interest-title">Competitive Gaming</div>
+            <p class="interest-desc">
+              Playing competitive games sparked my interest in game tick-rates, network packets, and spatial telemetry—which led directly to building <strong>KDCanvas</strong>.
+            </p>
+          </div>
+
+          <div class="interest-card">
+            <div class="interest-title">Working Out</div>
+            <p class="interest-desc">
+              Consistent gym training keeps me focused, disciplined, and energized for long programming and debugging sessions.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SECTION: CONTACT -->
+  <section id="contact" class="section-wrap" style="padding-top: 0; padding-bottom: 60px;">
+    <div class="container">
+      
+      <div class="contact-card">
+        <div>
+          <div class="mono-tag" style="margin-bottom: 12px;">CONTACT</div>
+          <h2 class="contact-heading">Let's talk.</h2>
+          <p class="contact-sub">
+            I am actively seeking co-op and internship positions in <strong>Software Engineering, Back-End Development, and Systems</strong>. As a Canadian citizen, I am accredited for the <strong>SWPP Federal Wage Subsidy</strong> (which covers up to 70% of co-op wages for Canadian employers).
+          </p>
+          <button class="contact-copy-pill" onclick="copyContactEmail()">
+            <span id="copyPillLabel">Copy: aallen.huang@mail.utoronto.ca</span>
+            <span>↳</span>
+          </button>
+        </div>
+
+        <div class="contact-links-list">
+          <div class="contact-row">
+            <span class="contact-lbl">Email</span>
+            <span class="contact-val">
+              <a href="mailto:aallen.huang@mail.utoronto.ca">aallen.huang@mail.utoronto.ca</a>
+            </span>
+          </div>
+
+          <div class="contact-row">
+            <span class="contact-lbl">LinkedIn</span>
+            <span class="contact-val">
+              <a href="https://www.linkedin.com/in/allen-huang-357509369/" target="_blank" rel="noopener noreferrer">
+                linkedin.com/in/allen-huang-357509369/ ↗
+              </a>
+            </span>
+          </div>
+
+          <div class="contact-row">
+            <span class="contact-lbl">Phone</span>
+            <span class="contact-val" style="font-family:var(--font-mono); font-size:0.95rem;">
+              306-716-6183
+            </span>
+          </div>
+
+          <div class="contact-row">
+            <span class="contact-lbl">Location</span>
+            <span class="contact-val">
+              Mississauga, Ontario, Canada
+            </span>
+          </div>
+
+          <div class="contact-row">
+            <span class="contact-lbl">Government Co-op Subsidy</span>
+            <span class="contact-val" style="color:#10b981; font-family:var(--font-mono); font-size:0.92rem; font-weight:600;">
+                Eligible · SWPP 70% Coverage
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <footer class="site-footer">
+        <div>ALLEN HUANG — CS STUDENT @ U OF T MISSISSAUGA</div>
+        <div><a href="#hero" style="text-decoration: underline;">Back to top ↑</a></div>
+      </footer>
+
+    </div>
+  </section>
+
+  <!-- PROJECT ARCHITECTURE MODAL -->
+  <div id="projectModal" class="modal-overlay" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal-card">
+      <button class="modal-close-btn" onclick="closeProjectModal()">Close [ESC]</button>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <!-- Theme Toggle -->
+  <button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Toggle Dark/Light Mode" title="Toggle Light/Dark Theme">
+    <span style="font-family:var(--font-mono); font-size:0.8rem;">◐</span>
+  </button>
+
+  <!-- ==========================================================================
+       ISOLATED SCRIPT 1: NAVIGATION, CARD TILT & MODAL POPUPS (ZERO DEPENDENCIES)
+       ========================================================================== -->
+  <script>
+    const projectManifesto = {
+      kdcanvas: {
+        title: "KDCanvas — Match Telemetry & Analytics Platform",
+        tech: "Node.js, Express, HTML5 Canvas API, Riot Games API",
+        content: `
+          <div class="mono-tag" style="margin-bottom:8px; color:#38bdf8;">RIOT GAMES API TELEMETRY PLATFORM</div>
+          <h2 style="font-size:2rem; font-weight:500; margin-bottom:14px;">KDCanvas</h2>
+          <p style="color:var(--text-sub); font-size:1.05rem; line-height:1.7; margin-bottom:24px;">
+            A full-stack match analytics platform proxying the Riot Games API. Parses multi-frame coordinate timeline data for up to 100 concurrent competitive matches to render real-time interactive kill/death heatmaps on Summoner's Rift.
+          </p>
+          <div style="background:var(--bg-subtle); padding:24px; border-radius:16px; border:1px solid var(--border); font-family:var(--font-mono); font-size:0.8rem; line-height:1.8;">
+            <div style="color:var(--text); font-weight:600; margin-bottom:8px;">KEY CONTRIBUTIONS:</div>
+            • Exponential Backoff: Designed an automated retry engine (<code>fetchWithRetry</code>) that reads <code>retry-after</code> headers to safely absorb HTTP 429 rate limits and 5xx gateway faults without losing requests.<br>
+            • Coordinate Normalization: Converted raw 15,000×15,000 game coordinate space into accurate HTML5 Canvas heatmap projections.<br>
+            • Timeline Filters: Built interactive player filters allowing users to view ability casts, items, and individual kill/death events.
+          </div>
+        `
+      },
+      bridges: {
+        title: "Ontario Bridge Data Analysis & Routing",
+        tech: "Python, Haversine GIS, BCI Analysis, Data Pipelines",
+        content: `
+          <div class="mono-tag" style="margin-bottom:8px; color:#34d399;">PYTHON & GEOSPATIAL ANALYSIS</div>
+          <h2 style="font-size:2rem; font-weight:500; margin-bottom:14px;">Ontario Bridge Condition Analysis</h2>
+          <p style="color:var(--text-sub); font-size:1.05rem; line-height:1.7; margin-bottom:24px;">
+            An automated data ingestion pipeline and algorithmic route planner analyzing public Ontario Ministry of Transportation infrastructure datasets to schedule critical preventative repairs.
+          </p>
+          <div style="background:var(--bg-subtle); padding:24px; border-radius:16px; border:1px solid var(--border); font-family:var(--font-mono); font-size:0.8rem; line-height:1.8;">
+            <div style="color:var(--text); font-weight:600; margin-bottom:8px;">KEY ALGORITHMS & IMPLEMENTATION:</div>
+            • <code>calculate_distance()</code>: Implemented the spherical Haversine formula on Earth's radius (6,371 km) to compute great-circle distance between coordinates.<br>
+            • <code>find_bridges_in_radius()</code>: Radial geospatial querying to filter bridges around key transit corridors (e.g. Highway 403).<br>
+            • <code>map_route()</code>: Greedy route optimization algorithm that plans an inspection sequence by prioritizing the bridge with the lowest Bridge Condition Index (BCI) within range.<br>
+            • <code>clean_data()</code>: Ingestion and standardization of multi-year inspection CSV data, handling missing BCI scores (-1.0).
+          </div>
+        `
+      },
+      posix: {
+        title: "Networked POSIX Shell & TCP Server",
+        tech: "C, Linux / POSIX, Sockets, IPC, select() Concurrency",
+        content: `
+          <div class="mono-tag" style="margin-bottom:8px; color:#f472b6;">SYSTEMS PROGRAMMING IN C</div>
+          <h2 style="font-size:2rem; font-weight:500; margin-bottom:14px;">Networked POSIX Shell</h2>
+          <p style="color:var(--text-sub); font-size:1.05rem; line-height:1.7; margin-bottom:24px;">
+            A custom Unix shell environment and synchronous I/O multiplexed TCP server engineered from scratch in C to master process lifecycles, memory safety, and non-blocking sockets.
+          </p>
+          <div style="background:var(--bg-subtle); padding:24px; border-radius:16px; border:1px solid var(--border); font-family:var(--font-mono); font-size:0.8rem; line-height:1.8;">
+            <div style="color:var(--text); font-weight:600; margin-bottom:8px;">KEY CONTRIBUTIONS:</div>
+            • <code>fork()</code> & <code>execv()</code>: Custom process execution with strict heap memory cleanup.<br>
+            • <code>dup2</code> IPC: Chained command output/input streams across pipe file descriptors.<br>
+            • <code>sigaction</code>: Custom signal handlers safely managing interrupts and preventing zombie processes.<br>
+            • <code>select()</code>: Multiplexed TCP server handling concurrent client socket connections with minimal CPU overhead over multi-threading.
+          </div>
+        `
+      }
+    };
+
+    const modalEl = document.getElementById('projectModal');
+    const modalBodyEl = document.getElementById('modalBody');
+
+    function openProjectModal(key) {
+      const data = projectManifesto[key];
+      if (data && modalEl && modalBodyEl) {
+        modalBodyEl.innerHTML = data.content;
+        modalEl.classList.add('active');
+        modalEl.setAttribute('aria-hidden', 'false');
+      }
+    }
+
+    function closeProjectModal() {
+      if (modalEl) {
+        modalEl.classList.remove('active');
+        modalEl.setAttribute('aria-hidden', 'true');
+      }
+    }
+
+    if (modalEl) {
+      modalEl.addEventListener('click', (e) => {
+        if (e.target === modalEl) closeProjectModal();
+      });
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modalEl && modalEl.classList.contains('active')) {
+        closeProjectModal();
+      }
+    });
+
+    document.querySelectorAll('.project-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const key = card.getAttribute('data-project');
+        openProjectModal(key);
+      });
+
+      card.addEventListener('mousemove', (e) => {
+        const r = card.getBoundingClientRect();
+        const x = e.clientX - r.left - r.width / 2;
+        const y = e.clientY - r.top - r.height / 2;
+        card.style.transform = `perspective(1000px) rotateX(${-y * 0.012}deg) rotateY(${x * 0.012}deg) translateY(-6px)`;
+      });
+
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)';
+      });
+    });
+  </script>
+
+  <!-- ==========================================================================
+       ISOLATED SCRIPT 2: ROBUST DRAWING PAD (POINTER EVENTS: MOUSE & TOUCH)
+       ========================================================================== -->
+  <script>
+    (function initSketchPadModule() {
+      const pad = document.getElementById('sketchPadCanvas');
+      if (!pad) return;
+      const ctx = pad.getContext('2d');
+      let isDrawing = false;
+      let lastX = 0, lastY = 0;
+
+      function setupCanvas() {
+        const rect = pad.getBoundingClientRect();
+        if (rect.width === 0 || rect.height === 0) return;
+        pad.width = rect.width;
+        pad.height = rect.height;
+        clearPad();
+      }
+
+      function clearPad() {
+        ctx.fillStyle = '#08080c';
+        ctx.fillRect(0, 0, pad.width, pad.height);
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = 2.5;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+      }
+
+      window.clearSketchPad = function() {
+        clearPad();
+      };
+
+      function getPos(e) {
+        const r = pad.getBoundingClientRect();
+        return {
+          x: e.clientX - r.left,
+          y: e.clientY - r.top
+        };
+      }
+
+      pad.addEventListener('pointerdown', (e) => {
+        try { pad.setPointerCapture(e.pointerId); } catch(err){}
+        isDrawing = true;
+        const p = getPos(e);
+        lastX = p.x;
+        lastY = p.y;
+      });
+
+      pad.addEventListener('pointermove', (e) => {
+        if (!isDrawing) return;
+        const p = getPos(e);
+        ctx.beginPath();
+        ctx.moveTo(lastX, lastY);
+        ctx.lineTo(p.x, p.y);
+        ctx.stroke();
+        lastX = p.x;
+        lastY = p.y;
+      });
+
+      function stopDraw(e) {
+        if (isDrawing) {
+          isDrawing = false;
+          try { pad.releasePointerCapture(e.pointerId); } catch(err){}
+        }
+      }
+
+      pad.addEventListener('pointerup', stopDraw);
+      pad.addEventListener('pointercancel', stopDraw);
+
+      window.addEventListener('load', setupCanvas);
+      setTimeout(setupCanvas, 150);
+    })();
+  </script>
+
+  <!-- ==========================================================================
+       ISOLATED SCRIPT 3: 3D PARTICLES — UNROTATED CONTAINER + DIRECT SCREEN PHYSICS
+       ========================================================================== -->
+  <script>
+    (function initParticleEngine() {
+      const canvasEl = document.getElementById('particle-canvas');
+      if (!canvasEl || typeof THREE === 'undefined') return;
+
+      let scene, camera, renderer, geometry, material, points;
+      const particleCount = 2400;
+
+      // Base unrotated shapes (source of truth for mathematical geometry)
+      const basePositions   = new Float32Array(particleCount * 3);
+      const targetShape     = new Float32Array(particleCount * 3);
+      // Actual live world positions rendered on screen
+      const currentPositions = new Float32Array(particleCount * 3);
+      const velocities       = new Float32Array(particleCount * 3);
+
+      function createCircleTexture() {
+        const c = document.createElement('canvas');
+        c.width = 64; c.height = 64;
+        const ctx = c.getContext('2d');
+        const g = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+        g.addColorStop(0, 'rgba(255, 255, 255, 1)');
+        g.addColorStop(0.35, 'rgba(240, 240, 255, 0.9)');
+        g.addColorStop(0.7, 'rgba(180, 180, 220, 0.2)');
+        g.addColorStop(1, 'rgba(0, 0, 0, 0)');
+        ctx.fillStyle = g;
+        ctx.fillRect(0, 0, 64, 64);
+        return new THREE.CanvasTexture(c);
+      }
+
+      function computeShape(section, arr) {
+        for (let i = 0; i < particleCount; i++) {
+          const i3 = i * 3;
+
+          if (section === 'hero') {
+            // CELESTIAL SPHERE
+            const phi = Math.acos(-1 + (2 * i) / particleCount);
+            const theta = Math.sqrt(particleCount * Math.PI) * phi;
+            const r = 20 + (Math.random() - 0.5) * 2;
+            arr[i3]     = r * Math.cos(theta) * Math.sin(phi);
+            arr[i3 + 1] = r * Math.sin(theta) * Math.sin(phi);
+            arr[i3 + 2] = r * Math.cos(phi);
+
+          } else if (section === 'projects') {
+            // 3D MATRIX CUBE
+            const s = 25;
+            const face = i % 6;
+            const u = (Math.random() - 0.5) * s;
+            const v = (Math.random() - 0.5) * s;
+            const half = s / 2;
+            if (face === 0) { arr[i3] = half;  arr[i3+1] = u;     arr[i3+2] = v; }
+            else if (face === 1) { arr[i3] = -half; arr[i3+1] = u;     arr[i3+2] = v; }
+            else if (face === 2) { arr[i3] = u;     arr[i3+1] = half;  arr[i3+2] = v; }
+            else if (face === 3) { arr[i3] = u;     arr[i3+1] = -half; arr[i3+2] = v; }
+            else if (face === 4) { arr[i3] = u;     arr[i3+1] = v;     arr[i3+2] = half; }
+            else { arr[i3] = u;     arr[i3+1] = v;     arr[i3+2] = -half; }
+
+          } else if (section === 'skills') {
+            // 3D TORUS RING (Donut accelerator)
+            const u = Math.random() * Math.PI * 2;
+            const v = Math.random() * Math.PI * 2;
+            const R = 21;
+            const r = 6.5 + Math.random() * 2;
+            arr[i3]     = (R + r * Math.cos(v)) * Math.cos(u);
+            arr[i3 + 1] = (R + r * Math.cos(v)) * Math.sin(u) * 0.8;
+            arr[i3 + 2] = r * Math.sin(v);
+
+          } else if (section === 'about') {
+            // 3D DOUBLE HELIX
+            const t = (i / particleCount) * Math.PI * 8;
+            const strand = i % 2 === 0 ? 1 : -1;
+            const rad = 11;
+            arr[i3]     = Math.cos(t) * rad * strand;
+            arr[i3 + 1] = (t - Math.PI * 4) * 2.8;
+            arr[i3 + 2] = Math.sin(t) * rad * strand;
+
+          } else {
+            // EXPANDING HORIZON CONSTELLATION
+            const theta = Math.random() * Math.PI * 2;
+            const dist = 6 + Math.random() * 34;
+            arr[i3]     = Math.cos(theta) * dist;
+            arr[i3 + 1] = (Math.random() - 0.5) * 8 - 4;
+            arr[i3 + 2] = Math.sin(theta) * dist;
+          }
+        }
+      }
+
+      let viewWidth = 48.5;
+      let viewHeight = 48.5;
+
+      function updateVisibleBounds() {
+        const vFOV = (camera.fov * Math.PI) / 180;
+        viewHeight = 2 * Math.tan(vFOV / 2) * camera.position.z;
+        viewWidth = viewHeight * (window.innerWidth / window.innerHeight);
+      }
+
+      function init() {
+        scene = new THREE.Scene();
+        camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(0, 0, 52);
+        camera.lookAt(0, 0, 0);
+
+        renderer = new THREE.WebGLRenderer({ canvas: canvasEl, alpha: true, antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+        updateVisibleBounds();
+
+        geometry = new THREE.BufferGeometry();
+        computeShape('hero', basePositions);
+        computeShape('hero', targetShape);
+
+        for (let i = 0; i < particleCount * 3; i++) {
+          currentPositions[i] = basePositions[i];
+        }
+
+        geometry.setAttribute('position', new THREE.BufferAttribute(currentPositions, 3));
+
+        material = new THREE.PointsMaterial({
+          color: new THREE.Color(0xffffff),
+          size: 1.5,
+          map: createCircleTexture(),
+          transparent: true,
+          opacity: 0.85,
+          blending: THREE.AdditiveBlending,
+          depthWrite: false
+        });
+
+        points = new THREE.Points(geometry, material);
+        // CRITICAL FIX: The container is kept strictly unrotated so its coordinates always match world space
+        points.rotation.set(0, 0, 0);
+        scene.add(points);
+
+        window.addEventListener('resize', onResize);
+      }
+
+      // MOUSE DRIVING
+      let mouseActive = false;
+      const mouse2D = new THREE.Vector2(0, 0);
+      let mouseWorldX = 0;
+      let mouseWorldY = 0;
+
+      window.addEventListener('pointermove', (e) => {
+        mouse2D.x = (e.clientX / window.innerWidth) * 2 - 1;
+        mouse2D.y = -(e.clientY / window.innerHeight) * 2 + 1;
+        mouseWorldX = mouse2D.x * (viewWidth / 2);
+        mouseWorldY = mouse2D.y * (viewHeight / 2);
+        mouseActive = true;
+      });
+
+      window.addEventListener('pointerleave', () => {
+        mouseActive = false;
+      });
+
+      // Shockwave burst on click
+      window.addEventListener('click', (e) => {
+        if (e.target.closest('button') || e.target.closest('a') || e.target.closest('canvas:not(#particle-canvas)')) return;
+
+        for (let i = 0; i < particleCount; i++) {
+          const i3 = i * 3;
+          const px = currentPositions[i3] + points.position.x;
+          const py = currentPositions[i3 + 1] + points.position.y;
+          const dx = px - mouseWorldX;
+          const dy = py - mouseWorldY;
+          const d = Math.sqrt(dx * dx + dy * dy);
+          if (d < 20) {
+            const force = (1 - d / 20) * 4.5;
+            velocities[i3]     += (dx / (d + 0.1)) * force;
+            velocities[i3 + 1] += (dy / (d + 0.1)) * force;
+          }
+        }
+      });
+
+      let spinY = 0;
+      let spinX = 0;
+
+      // ANIMATION LOOP: DIRECT VISUAL REACTION (NO TWISTING COORDINATE DESYNC)
+      function render() {
+        requestAnimationFrame(render);
+
+        // 1. Smoothly drift whole swarm center toward the cursor position
+        const targetSwarmX = mouseWorldX * 0.22;
+        const targetSwarmY = mouseWorldY * 0.22;
+        points.position.x += (targetSwarmX - points.position.x) * 0.05;
+        points.position.y += (targetSwarmY - points.position.y) * 0.05;
+
+        // Container rotation is locked to (0,0,0) to prevent coordinate desync
+        points.rotation.set(0, 0, 0);
+
+        // 2. Rotate the shape mathematically in world space
+        spinY += 0.0022;
+        spinX += 0.0006;
+        const rotY = spinY + mouse2D.x * 0.35;
+        const rotX = spinX - mouse2D.y * 0.25;
+
+        const cosY = Math.cos(rotY), sinY = Math.sin(rotY);
+        const cosX = Math.cos(rotX), sinX = Math.sin(rotX);
+
+        for (let i = 0; i < particleCount; i++) {
+          const i3 = i * 3;
+
+          // Smoothly interpolate base shape toward target geometry
+          basePositions[i3]     += (targetShape[i3] - basePositions[i3]) * 0.04;
+          basePositions[i3 + 1] += (targetShape[i3 + 1] - basePositions[i3 + 1]) * 0.04;
+          basePositions[i3 + 2] += (targetShape[i3 + 2] - basePositions[i3 + 2]) * 0.04;
+
+          const bx = basePositions[i3];
+          const by = basePositions[i3 + 1];
+          const bz = basePositions[i3 + 2];
+
+          // Rotate around Y
+          const rx = bx * cosY - bz * sinY;
+          const rz = bx * sinY + bz * cosY;
+
+          // Rotate around X
+          const targetX = rx;
+          const targetY = by * cosX - rz * sinX;
+          const targetZ = by * sinX + rz * cosX;
+
+          // Spring force pulling particle to its visual rotated target
+          velocities[i3]     += (targetX - currentPositions[i3]) * 0.035;
+          velocities[i3 + 1] += (targetY - currentPositions[i3 + 1]) * 0.035;
+          velocities[i3 + 2] += (targetZ - currentPositions[i3 + 2]) * 0.035;
+
+          // 3. ZERO-ERROR DIRECT SCREEN REPULSION
+          // Compares the exact physical pixel location on screen to your cursor
+          if (mouseActive) {
+            const visualScreenX = currentPositions[i3] + points.position.x;
+            const visualScreenY = currentPositions[i3 + 1] + points.position.y;
+            const dx = visualScreenX - mouseWorldX;
+            const dy = visualScreenY - mouseWorldY;
+            const distSq = dx * dx + dy * dy;
+            const thresholdSq = 49; // ~7 world units (~150px on screen)
+
+            if (distSq < thresholdSq) {
+              const dist = Math.sqrt(distSq);
+              const repulse = (1 - dist / 7) * 0.95;
+              velocities[i3]     += (dx / (dist + 0.01)) * repulse;
+              velocities[i3 + 1] += (dy / (dist + 0.01)) * repulse;
+              velocities[i3 + 2] += (Math.random() - 0.5) * repulse * 0.5;
+            }
+          }
+
+          // Friction damping
+          velocities[i3]     *= 0.88;
+          velocities[i3 + 1] *= 0.88;
+          velocities[i3 + 2] *= 0.88;
+
+          currentPositions[i3]     += velocities[i3];
+          currentPositions[i3 + 1] += velocities[i3 + 1];
+          currentPositions[i3 + 2] += velocities[i3 + 2];
+        }
+
+        geometry.attributes.position.needsUpdate = true;
+        renderer.render(scene, camera);
+      }
+
+      function onResize() {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        updateVisibleBounds();
+      }
+
+      init();
+      render();
+
+      // SCROLL-BASED SHAPE MORPHING
+      let currentSection = 'hero';
+      const sectionIds = ['hero', 'projects', 'skills', 'about', 'contact'];
+
+      function handleScrollMorph() {
+        const scrollY = window.scrollY + window.innerHeight * 0.35;
+        for (const id of sectionIds) {
+          const el = document.getElementById(id);
+          if (el) {
+            const top = el.offsetTop;
+            const height = el.offsetHeight;
+            if (scrollY >= top && scrollY < top + height) {
+              if (currentSection !== id) {
+                currentSection = id;
+                computeShape(id, targetShape);
+
+                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                const active = document.getElementById('link-' + id);
+                if (active) active.classList.add('active');
+              }
+              break;
+            }
+          }
+        }
+      }
+      window.addEventListener('scroll', handleScrollMorph, { passive: true });
+
+      window.updateParticleTheme = function(isDark) {
+        if (material) {
+          material.color.set(isDark ? 0xffffff : 0x111114);
+        }
+      };
+    })();
+  </script>
+
+  <!-- ==========================================================================
+       ISOLATED SCRIPT 4: THEME SWITCHER & EMAIL COPY UTILITY
+       ========================================================================== -->
+  <script>
+    const themeBtn = document.getElementById('themeToggleBtn');
+    if (themeBtn) {
+      themeBtn.addEventListener('click', () => {
+        const current = document.documentElement.getAttribute('data-theme');
+        const next = current === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', next);
+
+        if (window.updateParticleTheme) {
+          window.updateParticleTheme(next === 'dark');
+        }
+        if (window.clearSketchPad) {
+          window.clearSketchPad();
+        }
+      });
+    }
+
+    function copyContactEmail() {
+      const email = 'aallen.huang@mail.utoronto.ca';
+      navigator.clipboard.writeText(email).then(() => {
+        const lbl = document.getElementById('copyPillLabel');
+        if (lbl) {
+          lbl.textContent = 'Copied to Clipboard!';
+          setTimeout(() => {
+            lbl.textContent = 'Copy: ' + email;
+          }, 2800);
+        }
+      });
+    }
+  </script>
+</body>
+</html>
